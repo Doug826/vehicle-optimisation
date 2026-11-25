@@ -31,7 +31,6 @@ The code was developed on Python 3.14 with numpy 2, scipy, matplotlib and numba.
 | Performance checks (0–60, 0–100, top speed, gear hunting) | `python run.py perf` | ~30 s |
 | Re-fit frontal area and shift time to Ford's figures | `python run.py calibrate` | ~20 s |
 | How individual assumptions move the saving | `python run.py sensitivity` | ~4 min |
-| The combined "34%" variant | `python -m fiesta.combined` | ~10 min |
 | Replay the saved reference case | `python run.py replay results/reference-case` | ~5 s |
 | Tests (26) | `python -m pytest -q` | ~30 s |
 
@@ -90,30 +89,13 @@ The maximum is **33.4% on the flat course with 16 sections**. Every run is withi
 
 So it builds speed before the hill and sheds it near the top.
 
-### 3. Can the saving be made exactly 34%? (`results/sensitivity/`)
-
-I didn't tune the reference model to 34%. The saving is an output, and fitting a free parameter to hit it would make the agreement meaningless. Instead, each declared alternative assumption was changed on its own (rolling course, N = 8):
-
-| Change (one at a time) | Saving |
-| --- | --- |
-| reference (calibrated) | 28.6% |
-| upshift margin 0.0 m/s / forecast horizon 2.0 s | 28.6% (no effect) |
-| ±0.5 s window (Doug's earlier recollection) | 28.7% |
-| no rotational inertia | 28.8% |
-| 130 s target | 29.3% |
-| 110 s target | 30.5% |
-| uncalibrated car (A = 2.0 m², constant Crr) | 30.6% |
-| minimum engaged rpm 1000 instead of 1200 | 31.3% |
-
-No single assumption reaches 34%. Combining the three that raise it (1000 rpm, 110 s target, ±0.5 s window, with the calibrated car) gives **34.01% on the flat course with N = 16**, which is 34% to two decimal places. The same settings give only 22.2% with N = 8 and 33.3% / 31.0% on the rolling course with N = 8 / 16. The spread shows that **an exact 34% is within reach of plausible settings, but no single result is robust to ±5 points**. The search landscape has jumps (section 4), so Nelder–Mead results depend on where the search happens to land. The calibrated reference remains the model of record.
-
-### 4. Finding: the upshift rule can leave the car stuck in a gear
+### 3. Finding: the upshift rule can leave the car stuck in a gear
 
 The brief's rule is that an upshift must still gain 0.10 m/s within a 1 s forecast. At some constant throttles this means the car never upshifts. At 0.30 throttle on the flat it stays in 3rd at 4,350 rpm and finishes in 109 s using 908 kJ. At 0.325 it reaches 4th and finishes in 122 s using 646 kJ.
 
 The flat-course constant baseline (0.35) never gets out of 4th. The optimised profile reaches 5th by accelerating harder early on. So part of the flat-course saving is escaping this trap, not coasting. See [energy_vs_time](results/visuals/energy_vs_time.png). These jumps also explain the erratic optimiser results: flat N = 8 found only 19.8%, while N = 4 found 29.4%.
 
-### 5. Where the energy goes ([energy_breakdown](results/visuals/energy_breakdown.png))
+### 4. Where the energy goes ([energy_breakdown](results/visuals/energy_breakdown.png))
 
 | | Driveline losses | Aero | Rolling | Kinetic energy over the line | Total |
 | --- | --- | --- | --- | --- | --- |
