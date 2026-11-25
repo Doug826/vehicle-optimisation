@@ -1,0 +1,241 @@
+{
+  "rolling": {
+    "route_name": "rolling",
+    "route": {
+      "length_m": 1609.344,
+      "segment_grades_percent": [
+        0,
+        -2,
+        -2,
+        4,
+        6,
+        -4,
+        -2,
+        0
+      ],
+      "steep_approach_segment_index": 4,
+      "_source": "brief substitute: one mile in eight equal lengths, uphill positive"
+    },
+    "vehicle": {
+      "name": "Ford Fiesta Mk7 (2013 facelift) 1.25 Duratec 82 PS, 5-door, 5-speed iB5 manual",
+      "mass_kg": 1055.0,
+      "gear_ratios": [
+        3.583,
+        1.926,
+        1.281,
+        0.951,
+        0.756
+      ],
+      "final_drive": 4.06,
+      "wheel_radius_m": 0.285,
+      "drag_coefficient": 0.328,
+      "frontal_area_m2": 2.0656,
+      "rolling_coefficient": 0.01,
+      "driveline_efficiency": 0.9,
+      "air_density_kg_m3": 1.225,
+      "gravity_m_s2": 9.81,
+      "torque_curve_rpm": [
+        850,
+        1500,
+        2500,
+        3500,
+        4200,
+        5000,
+        5800,
+        6250
+      ],
+      "torque_curve_Nm": [
+        55,
+        75,
+        95,
+        108,
+        114,
+        106,
+        98.8,
+        85
+      ],
+      "launch_rpm": 850.0,
+      "min_engaged_rpm": 1200.0,
+      "rpm_limit": 6250.0,
+      "engine_inertia_kg_m2": 0.1,
+      "wheel_inertia_total_kg_m2": 2.4,
+      "include_rotational_inertia": true,
+      "_source": {
+        "mass_kg": "published p.11: 5-dr kerb 1055 kg, lightest spec, includes 75 kg driver, 90% fuel",
+        "gear_ratios": "published p.15 (iB5): 3.583/1.926/1.281/0.951/0.756",
+        "final_drive": "published p.15: 4.06 for the 1.25 (NB: 1.0 Ti-VCT is 4.56, 1.0 EcoBoost 3.61)",
+        "torque_peak": "published p.15: 114 Nm @ 4200 rpm; 82 PS (60 kW) @ 5800 rpm -> 98.8 Nm implied",
+        "torque_curve_other_points": "brief: illustrative, not manufacturer data",
+        "drag_coefficient": "published p.12: Cd = 0.328 (5-dr). The brief's 0.32 was replaced by the published value.",
+        "frontal_area_m2": "CALIBRATED (python run.py calibrate): fitted so steady top speed = Ford's 168 km/h. 2.066 m2 = 0.80 x Ford's 1722 mm x 1495 mm box (p.12), a typical supermini fill factor. Earlier untuned value 2.0 (brief) gave 172.9 km/h.",
+        "wheel_radius_m": "assumed (brief 0.285). Consistent with 175/65 R14 (free radius 0.292 m, ~0.285 m loaded); 195/50 R15 gives ~0.282 m. Tyre size not in the press pack",
+        "rolling_coefficient": "assumed, physically standard: Wong (Theory of Ground Vehicles) passenger-tyre fit Crr = 0.01 x (1 + V_kmh/160). Gives 0.012-0.013 at the 40-60 km/h trip speeds (the brief's constant 0.012) and 0.0205 at 168 km/h",
+        "driveline_efficiency": "assumed (brief)",
+        "launch_rpm": "brief: clutch slip at 850 rpm for launch in first",
+        "min_engaged_rpm": "assumed: a gear above first is legal only if the engine would turn at least this fast",
+        "rpm_limit": "brief: 6250 rpm assumed upper limit; fuel cut (zero torque) above it",
+        "inertia": "assumed, not in brief: 0.10 kg m2 crank+flywheel+clutch, 4 x 0.6 kg m2 wheel/tyre/brake. Added so first-gear acceleration is physically plausible; set include_rotational_inertia=false for the brief's literal model",
+        "rolling_speed_factor_per_kmh": "see rolling_coefficient (1/160 per km/h); set 0 for constant Crr"
+      },
+      "rolling_speed_factor_per_kmh": 0.00625
+    },
+    "simulation": {
+      "dt_s": 0.1,
+      "target_time_s": 120.0,
+      "time_tolerance_s": 0.1,
+      "max_time_s": 400.0,
+      "stall_time_s": 10.0,
+      "_source": "brief: 0.1 s step, 120 s target, +/-0.1 s window (earlier recollection +/-0.5 s); max_time and stall bound assumed"
+    },
+    "controller": {
+      "horizon_s": 1.0,
+      "upshift_margin_m_s": 0.1,
+      "allowed_dip_m_s": 0.0,
+      "extra_reserve_3_to_4_m_s": 0.0,
+      "hold_tolerance_m_s": 0.0,
+      "upshift_check_enabled": true,
+      "energy_tie_rel": 1e-09,
+      "_source": "brief substitute shift predictor: 1.0 s forecast at requested throttle, no dip below entry speed, end speed >= entry + 0.10 m/s to upshift, level forecast to hold. 'Struggling' = current gear cannot hold speed even at full throttle (assumed definition)."
+    },
+    "derived": {
+      "segment_length_m": 201.168,
+      "grade_angle_rad": [
+        0.0,
+        -0.019997333973150535,
+        -0.019997333973150535,
+        0.039978687123290044,
+        0.05992815512120788,
+        -0.039978687123290044,
+        -0.019997333973150535,
+        0.0
+      ],
+      "overall_ratios": [
+        14.54698,
+        7.819559999999999,
+        5.20086,
+        3.8610599999999993,
+        3.0693599999999996
+      ],
+      "conventions": {
+        "integration": "explicit: start-of-step force, constant acceleration within step",
+        "motion": "forward-only (speed clamped at 0, no roll-back)",
+        "finish": "fractional final step to exactly route length; same fraction applied to time and energy",
+        "energy": "shaft work P = T*rpm*2pi/60, dE = P*dt; forecasts excluded; coasting = zero shaft torque",
+        "throttle_lookup": "by distance travelled, equal-length sections",
+        "launch": "clutch slip with engine at launch_rpm while locked rpm < launch_rpm"
+      }
+    }
+  },
+  "flat": {
+    "route_name": "flat",
+    "route": {
+      "length_m": 1609.344,
+      "segment_grades_percent": [
+        0
+      ],
+      "_source": "brief: flat test course"
+    },
+    "vehicle": {
+      "name": "Ford Fiesta Mk7 (2013 facelift) 1.25 Duratec 82 PS, 5-door, 5-speed iB5 manual",
+      "mass_kg": 1055.0,
+      "gear_ratios": [
+        3.583,
+        1.926,
+        1.281,
+        0.951,
+        0.756
+      ],
+      "final_drive": 4.06,
+      "wheel_radius_m": 0.285,
+      "drag_coefficient": 0.328,
+      "frontal_area_m2": 2.0656,
+      "rolling_coefficient": 0.01,
+      "driveline_efficiency": 0.9,
+      "air_density_kg_m3": 1.225,
+      "gravity_m_s2": 9.81,
+      "torque_curve_rpm": [
+        850,
+        1500,
+        2500,
+        3500,
+        4200,
+        5000,
+        5800,
+        6250
+      ],
+      "torque_curve_Nm": [
+        55,
+        75,
+        95,
+        108,
+        114,
+        106,
+        98.8,
+        85
+      ],
+      "launch_rpm": 850.0,
+      "min_engaged_rpm": 1200.0,
+      "rpm_limit": 6250.0,
+      "engine_inertia_kg_m2": 0.1,
+      "wheel_inertia_total_kg_m2": 2.4,
+      "include_rotational_inertia": true,
+      "_source": {
+        "mass_kg": "published p.11: 5-dr kerb 1055 kg, lightest spec, includes 75 kg driver, 90% fuel",
+        "gear_ratios": "published p.15 (iB5): 3.583/1.926/1.281/0.951/0.756",
+        "final_drive": "published p.15: 4.06 for the 1.25 (NB: 1.0 Ti-VCT is 4.56, 1.0 EcoBoost 3.61)",
+        "torque_peak": "published p.15: 114 Nm @ 4200 rpm; 82 PS (60 kW) @ 5800 rpm -> 98.8 Nm implied",
+        "torque_curve_other_points": "brief: illustrative, not manufacturer data",
+        "drag_coefficient": "published p.12: Cd = 0.328 (5-dr). The brief's 0.32 was replaced by the published value.",
+        "frontal_area_m2": "CALIBRATED (python run.py calibrate): fitted so steady top speed = Ford's 168 km/h. 2.066 m2 = 0.80 x Ford's 1722 mm x 1495 mm box (p.12), a typical supermini fill factor. Earlier untuned value 2.0 (brief) gave 172.9 km/h.",
+        "wheel_radius_m": "assumed (brief 0.285). Consistent with 175/65 R14 (free radius 0.292 m, ~0.285 m loaded); 195/50 R15 gives ~0.282 m. Tyre size not in the press pack",
+        "rolling_coefficient": "assumed, physically standard: Wong (Theory of Ground Vehicles) passenger-tyre fit Crr = 0.01 x (1 + V_kmh/160). Gives 0.012-0.013 at the 40-60 km/h trip speeds (the brief's constant 0.012) and 0.0205 at 168 km/h",
+        "driveline_efficiency": "assumed (brief)",
+        "launch_rpm": "brief: clutch slip at 850 rpm for launch in first",
+        "min_engaged_rpm": "assumed: a gear above first is legal only if the engine would turn at least this fast",
+        "rpm_limit": "brief: 6250 rpm assumed upper limit; fuel cut (zero torque) above it",
+        "inertia": "assumed, not in brief: 0.10 kg m2 crank+flywheel+clutch, 4 x 0.6 kg m2 wheel/tyre/brake. Added so first-gear acceleration is physically plausible; set include_rotational_inertia=false for the brief's literal model",
+        "rolling_speed_factor_per_kmh": "see rolling_coefficient (1/160 per km/h); set 0 for constant Crr"
+      },
+      "rolling_speed_factor_per_kmh": 0.00625
+    },
+    "simulation": {
+      "dt_s": 0.1,
+      "target_time_s": 120.0,
+      "time_tolerance_s": 0.1,
+      "max_time_s": 400.0,
+      "stall_time_s": 10.0,
+      "_source": "brief: 0.1 s step, 120 s target, +/-0.1 s window (earlier recollection +/-0.5 s); max_time and stall bound assumed"
+    },
+    "controller": {
+      "horizon_s": 1.0,
+      "upshift_margin_m_s": 0.1,
+      "allowed_dip_m_s": 0.0,
+      "extra_reserve_3_to_4_m_s": 0.0,
+      "hold_tolerance_m_s": 0.0,
+      "upshift_check_enabled": true,
+      "energy_tie_rel": 1e-09,
+      "_source": "brief substitute shift predictor: 1.0 s forecast at requested throttle, no dip below entry speed, end speed >= entry + 0.10 m/s to upshift, level forecast to hold. 'Struggling' = current gear cannot hold speed even at full throttle (assumed definition)."
+    },
+    "derived": {
+      "segment_length_m": 1609.344,
+      "grade_angle_rad": [
+        0.0
+      ],
+      "overall_ratios": [
+        14.54698,
+        7.819559999999999,
+        5.20086,
+        3.8610599999999993,
+        3.0693599999999996
+      ],
+      "conventions": {
+        "integration": "explicit: start-of-step force, constant acceleration within step",
+        "motion": "forward-only (speed clamped at 0, no roll-back)",
+        "finish": "fractional final step to exactly route length; same fraction applied to time and energy",
+        "energy": "shaft work P = T*rpm*2pi/60, dE = P*dt; forecasts excluded; coasting = zero shaft torque",
+        "throttle_lookup": "by distance travelled, equal-length sections",
+        "launch": "clutch slip with engine at launch_rpm while locked rpm < launch_rpm"
+      }
+    }
+  }
+}

@@ -1,124 +1,113 @@
-# Fiesta energy-optimisation reconstruction
+# Fiesta optimisation, brief v2: fewer simulations, finer control, honest savings
 
-This is a Python reconstruction of Doug's final-year project, *Vehicle Energy Optimisation over Undulating Terrain*.
+This answers [brief v2](docs/briefs/brief-v2.md):
+* Can a better numerical method find a time-matched driving strategy with fewer whole-journey simulations?
+* Does spending the saved computation on finer throttle control buy a meaningful energy saving?
+* How much of the saving depends on how fast the car crosses the line?
 
-> **Inputs are substitutes.** No `original-materials/` were supplied. The vehicle data were checked against Ford's November 2012 press pack, which corrected Cd to 0.328.
+> **Reconstruction on substitute inputs.** The simulator and the reference case were copied, read-only, from v1 (git tag `v1.0.0`) into `fiesta/` and `reference/`. Every copied file's SHA-256 is in [`reference/COPIED_FROM.json`](reference/COPIED_FROM.json).
 >
-> **Two unpublished quantities are calibrated to Ford's published performance figures:**
-> * frontal area, fitted to the 168 km/h top speed;
-> * gear-change time, fitted to the 0–100 km/h time of 13.3 s.
->
-> Everything else is a labelled substitute or assumption. See [PROVENANCE.md](PROVENANCE.md). Every input is in one file: [`config/substitute.json`](config/substitute.json).
+> The car is the calibrated Fiesta 1.25 Duratec 82 PS: 0–100 km/h in 13.3 s and 168 km/h, matching Ford. The route is the rolling mile, 120 ± 0.1 s, with a 0.1 s step. Replaying the v1 reference case reproduces its arrival time, shaft energy, finishing speed and gear-change locations exactly.
 
-## Setup (Windows, PowerShell)
+## Setup and commands (Windows, PowerShell)
 
 ```powershell
-cd fiesta-reconstruction
+cd fiesta-improved
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+
+python -m pytest -q            # 19 tests, ~5 s
+python run.py quick            # ~15 s: parity, inner solvers, A/B/C/D to 4 sections  -> results/v2/quick/
+python run.py full             # ~5 min on 12 cores: the whole brief                   -> results/v2/full/
+python run.py report           # rebuild figures + REPORT.md from saved results (no re-simulation)
 ```
 
-The code was developed on Python 3.14 with numpy 2, scipy, matplotlib and numba. numba is optional: without it the code still runs, about 100× slower.
+**Compared with v1:** see [COMPARISON.md](COMPARISON.md) (v1 results are kept in `results/v1/`; v1 code is at tag `v1.0.0`).
 
-## Commands
+**Results:** [`results/v2/full/REPORT.md`](results/v2/full/REPORT.md) has every table and figure. The CSVs sit beside it: `ladders.csv`, `inner_comparison.csv`, `retimed_finalists.csv`, `multistart.csv`, `finish_speed.csv`, `time_step.csv` and `reference_replay.csv`. Inputs are in [`config/vehicle_route.json`](config/vehicle_route.json) (the vehicle, unchanged from v1) and [`config/experiment.json`](config/experiment.json) (budgets and solver settings).
 
-| What | Command | Time |
-| --- | --- | --- |
-| Quick end-to-end example (rolling course, N = 1/2/4, small budgets) | `python run.py quick` | ~20 s |
-| Full sweep (N = 1/2/4/8/16, rolling and flat courses), plus performance checks and the reference case | `python run.py full` | ~25 min |
-| Journey dashboards and other figures (needs `results/full`) | `python run.py visuals` | ~30 s |
-| Performance checks (0–60, 0–100, top speed, gear hunting) | `python run.py perf` | ~30 s |
-| Re-fit frontal area and shift time to Ford's figures | `python run.py calibrate` | ~20 s |
-| How individual assumptions move the saving | `python run.py sensitivity` | ~4 min |
-| Replay the saved reference case | `python run.py replay results/reference-case` | ~5 s |
-| Tests (26) | `python -m pytest -q` | ~30 s |
+![overlay](results/v2/full/figures/1_overlay_distance.png)
+![energy vs calls](results/v2/full/figures/2_energy_vs_calls.png)
 
-## Visuals (`results/visuals/`)
+## Compact results (rolling mile; baseline: constant throttle 0.437, 664.4 kJ, finish 19.85 m/s)
 
-| Figure | What it shows |
-| --- | --- |
-| [rolling_journey_vs_time](results/visuals/rolling_journey_vs_time.png) | Rolling mile against time: speed, acceleration, jerk, throttle, gear, engine rpm, shaft power and cumulative energy. Constant throttle vs the best profile. |
-| [rolling_journey_vs_distance](results/visuals/rolling_journey_vs_distance.png) | The same, against distance, with the elevation profile and the steep section shaded. |
-| [flat_journey_vs_time](results/visuals/flat_journey_vs_time.png) / [flat_journey_vs_distance](results/visuals/flat_journey_vs_distance.png) | The same for the flat mile. |
-| [rolling_engine_map](results/visuals/rolling_engine_map.png) / [flat_engine_map](results/visuals/flat_engine_map.png) | Where the engine runs (torque against rpm), one dot per 0.1 s, against the full-load curve and constant-power lines. |
-| [energy_breakdown](results/visuals/energy_breakdown.png) | Where the shaft energy goes: driveline losses, aerodynamic drag, rolling resistance, and kinetic energy carried over the line. |
-| [energy_vs_time](results/visuals/energy_vs_time.png) | Every constant throttle from 0.22 to 1.0: journey time against energy, coloured by the highest gear reached. Shows the stuck-in-gear effect. |
-| [throttle_profiles](results/visuals/throttle_profiles.png) | The best throttle shape at N = 1/2/4/8/16 on each course. |
-| [savings_by_sections](results/visuals/savings_by_sections.png) | Saving against throttle resolution, with the 34% line. |
-| [acceleration_dashboard](results/visuals/acceleration_dashboard.png) | The calibrated full-throttle run: speed, acceleration, jerk, gear, rpm and power, with the 0–60 and 0–100 marks. |
-| [sensitivity](results/sensitivity/sensitivity.png) | One assumption changed at a time, and how far it moves the saving. |
-| [gear_hunting](results/performance/gear_hunting.png) | The 3rd/4th gear hunting on a +7% hill, with the upshift margin on and off. |
+| Method | N | Energy (kJ) | Saving | Residual (s) | Finish (m/s) | Calls (cumulative) | Wall (s) |
+|---|---|---|---|---|---|---|---|
+| A: Nelder–Mead inner, flat start (historical) | 8 | 473.1 | 28.8% | +0.09 | 10.22 | 8 000 (budget) | 25 |
+| B: bisection inner, flat start | 8 | 466.3 | 29.8% | +0.09 | 10.52 | 2 080 | 7 |
+| **C: bisection, inherited coarse profile** | **8** | **464.6** | **30.1%** | +0.07 | 10.45 | 2 797 | 6 |
+| A | 16 | 473.4 | 28.8% | +0.10 | 11.14 | 15 000 (budget) | 44 |
+| B | 16 | 467.9 | 29.6% | +0.09 | 10.65 | 6 353 | 20 |
+| C | 16 | 464.6 | 30.1% (no gain over 8) | +0.07 | 10.45 | 17 797 | 48 |
+| A | 32 | 487.8 | 26.6% | −0.02 | 11.86 | 25 000 (budget) | 69 |
+| B | 32 | 479.0 | 27.9% | +0.09 | 11.16 | 25 000 (budget) | 69 |
+| C | 32 / 64 | 464.6 | 30.1% (no gain) | +0.07 | 10.45 | 42 797 / 77 797 | 70 / 93 |
+| D (extra): C + secant splits + 0.02 s scoring | 32 | 464.8 | 30.05% | +0.08 | 10.59 | 34 210 | 71 |
+| Matched finish (±0.2 m/s of baseline) | 8 | 643.7 | **3.1%** | +0.03 | 19.66 | 1 545 | – |
+| Matched finish | 16 | 656.7 | 1.2% | +0.08 | 19.65 | 3 133 | – |
 
-## Results
+The full table, with every N, first-feasible call, feasible shapes and shifts, is in REPORT.md.
 
-### 1. Performance, calibrated (`results/performance/`)
+## Conclusions
 
-| Check | Simulated | Ford (p.10) | Error |
-| --- | --- | --- | --- |
-| 0–100 km/h | **13.30 s** | 13.3 s | 0.00 s |
-| 0–62 mph | 13.25 s | 13.3 s (Ford labels its figure "0–100 kph / 0–62 mph") | −0.05 s |
-| 0–60 mph | **12.48 s** | *not published* | – |
-| Top speed (4th gear, 6037 rpm; 5th gives 163 km/h) | **168.0 km/h = 104.4 mph** | 168 km/h = 104 mph | 0.0 km/h; +0.4 mph against the rounded mph figure |
+**1. Bisection is a clear win.**
+* **On 43 identical shapes:** it time-matched a shape in a median of **12 whole-route simulations, against 32** for scalar Nelder–Mead. It also succeeded more often: 36/43 against 30/43.
+* **Inside the full search (B vs A at N = 8):** B reached 29.8% using 2,080 simulations; A reached 28.8% after spending its full 8,000.
+* **First feasible run:** after 6 simulations instead of 14.
+* **What it costs:** nothing, as long as the solver checks the *actual* simulated residual. Arrival time is not monotone in throttle scale: gear-policy changes make it jump by several seconds, sometimes clean over the ±0.1 s band (figure 3). The bisection reports such jumps and moves on. A synthetic-jump test confirms that neither solver claims a false success.
 
-What changed to get there:
+**2. Reusing the coarse solution makes the result reliable.**
+* **The headline:** method C found the best profile overall, 30.07% at N = 8.
+* **Start sensitivity:** across six documented starting simplexes at N = 8, C stayed between **29.7% and 30.1%**. The flat-start methods ranged from 22.1% to 30.0% (A) and 20.8% to 30.1% (B).
+* **What it costs:** C is charged for its coarse solves, yet reached that point at 2,797 cumulative simulations.
 
-1. **Rolling resistance now rises with speed.** It uses the standard passenger-tyre fit Crr = 0.010 × (1 + V/160), with V in km/h. That gives about 0.0125 at the 40–60 km/h trip speeds (the brief's constant was 0.012) and 0.0205 at 168 km/h.
-2. **Frontal area is now 2.066 m²** (the brief had 2.0). That is 80% of Ford's width × height, a typical fill factor for a supermini. Using frontal area alone, with constant rolling resistance, would have needed 2.27 m² (88%), which is implausibly large.
-3. **The gear change in the acceleration test now takes 0.50 s** (previously assumed 0.4 s), a plausible manual shift.
+**3. Going beyond 16 sections bought nothing measurable.**
+* **C:** refined to 16, 32 and 64 sections by replaying the inherited profile; each replay was checked to give an identical drive. Another 15,000, 25,000 and 35,000 simulations found **no lower-energy feasible profile**.
+* **D:** gained 0.15 kJ (0.02 points) at 32 sections.
+* **Flat-start methods get worse at 32**, because the search space grows faster than the budget: A falls to 26.6%, B to 27.9%.
+* **Why more resolution doesn't help:** the useful control freedom here is "push early, push on the approach to the hill, coast over the crest to the line", and 8 sections of 201 m already express it. The terrain itself only has 8 segments.
 
-Everything else is unchanged: mass, gearing, Cd, torque curve and driveline efficiency are not fitted. The tests now require 0–100 km/h within 0.1 s and top speed within 0.5 mph. They also check that the calibration reproduces itself, that the fitted area is physically plausible, and the power balance and work–energy theorem.
+**4. Most of the "saving" is finishing slower.**
+* **What the car carries over the line:** the baseline crosses at 19.85 m/s (½mv² = 208 kJ); the best profile crosses at 10.45 m/s (58 kJ).
+* **Matched finishing speed:** when the optimised car must finish within 0.2 m/s of the baseline (a new experimental choice), the saving falls from **30.1% to 3.1%** (N = 8, seeded with the constant profile). The 16-section run reached only 1.2% within its budget.
+* **The 34% recalled from Doug's university project is not a like-for-like comparison:** about nine-tenths of the free-finish saving is kinetic energy not carried over the line.
 
-Doug recalled matching **0–60** within 0.1 s, but Ford publishes no 0–60 time, only 0–100 km/h (≈0–62 mph). If his comparison treated 13.3 s as a 0–60 figure, that would be about 0.8 s off.
+**5. Finer physics steps preserve the saving but break the timing.**
+* **The constant baseline** stays in the window at 0.05 s and 0.025 s physics steps, with the controller still updating every 0.1 s.
+* **Both optimised profiles drift out of the window** at the finer steps (v1 best by up to +0.70 s, v2 best by up to +0.35 s), because one gear change moves.
+* **Re-timed (labelled):** the v2 profile costs 466.8–467.4 kJ, so the saving stays at about 29.8%.
+* **The finalists' ranking holds:** re-timed to a common tighter residual, C < D < B < A at N ≥ 8.
 
-### 2. Energy comparison, calibrated car (`results/full/summary.md`)
+**6. The upshift margin prevents gear hunting.** On a +7% climb at 0.70 throttle there is 1 shift with the margin and 377 shifts (362 reversals within 2 s) without it (figure 8).
 
-| Course | N | Shaft energy (kJ) | Finish (km/h) | Saving |
-| --- | --- | --- | --- | --- |
-| rolling | constant 0.44 | 664.4 | 71.4 | – |
-| rolling | 2 / 4 / 8 / 16 | 485.9 / 484.6 / **474.1** / 475.2 | ~37 | 26.9 / 27.1 / **28.6** / 28.5% |
-| flat | constant 0.35 | 683.4 | 72.9 | – |
-| flat | 2 / 4 / 8 / 16 | 517.8 / 482.6 / 548.0 / **454.8** | 33–54 | 24.2 / 29.4 / 19.8 / **33.4%** |
+## What changed from v1, and why
 
-The maximum is **33.4% on the flat course with 16 sections**. Every run is within 120 ± 0.1 s, and N = 1 reproduces the baseline exactly.
+| Area | v1 | v2 |
+|---|---|---|
+| **Inner time solver** | 1-D Nelder–Mead on \|r(k)\| | Bounded bracketing and bisection, starting from the last successful scale. Unfinished runs count as late, the bracket nearest the nominal scale is tried first, jumps are detected and logged, same-sign endpoints are subdivided, and a budget is declared. An optional safeguarded secant split is available. |
+| **Resolution** | Every N starts flat | Profiles are inherited by splitting each section into two identical children, replayed to confirm an identical drive, then improved. Tried at 32 and 64. |
+| **Accounting** | Outer-evaluation caps | Every whole-route simulation is counted, against a declared per-resolution budget. A cache keyed on the applied throttle vector and a configuration hash uses the same policy for every method. C and D are charged for their coarse solves. |
+| **Outer search hygiene** | – | Shape space had flat directions: scaling q, or making entries negative (clipped to zero throttle), gives identical applied throttles. Nelder–Mead could drift along them on free cache hits. A small quadratic term removes them without changing which applied profile wins, plus a shape-evaluation cap. |
+| **Simulator** | Gear forecast every physics step | The controller update period is separate from the physics step (fixed at 0.1 s with a 1.0 s forecast), which enables the time-step study. Per-step allocations were removed in the gear chooser. Results are bit-identical at 0.1 s. |
+| **Speed** | Serial | Methods, multistarts and finish-speed runs use separate processes. The full brief runs in about 5 minutes (v1's sweep took about 25). |
+| **Tests** | 26 (v1) | 19 new, listed below. |
 
-**Hill behaviour (rolling, N = 8).** Throttle by section is [0.88, 0.36, 0.69, 0.12, 0.39, 0, 0, 0].
-* **Before the hill:** the profile drives on the second −2% descent and reaches **78.5 km/h at the foot of the climb**. The constant run reaches 66.6 km/h there.
-* **On the climb:** it eases to 0.12 on the +4% section and uses 0.39 on the steep +6% section. Speed falls from 47.0 km/h 100 m before the crest to **33.7 km/h at the crest**. The constant run reaches the crest at 31.6 km/h.
-* **After the crest:** it coasts to the line.
+The 19 new tests cover:
+* reference parity;
+* the hand-calculated 40 kJ shaft work;
+* split-section equivalence;
+* the ideal locked drivetrain (shaft power = F·v), and that a lower rpm alone saves no work at the same force and speed;
+* a bracketed target, an unreachable target and an unfinished low-throttle run;
+* a synthetic gear jump that skips the time band;
+* the cache key and budget enforcement;
+* C's inherited replay;
+* the controller update period;
+* the reversal counter;
+* the performance calibration.
 
-So it builds speed before the hill and sheds it near the top.
+## Caveats
 
-### 3. Finding: the upshift rule can leave the car stuck in a gear
-
-The brief's rule is that an upshift must still gain 0.10 m/s within a 1 s forecast. At some constant throttles this means the car never upshifts. At 0.30 throttle on the flat it stays in 3rd at 4,350 rpm and finishes in 109 s using 908 kJ. At 0.325 it reaches 4th and finishes in 122 s using 646 kJ.
-
-The flat-course constant baseline (0.35) never gets out of 4th. The optimised profile reaches 5th by accelerating harder early on. So part of the flat-course saving is escaping this trap, not coasting. See [energy_vs_time](results/visuals/energy_vs_time.png). These jumps also explain the erratic optimiser results: flat N = 8 found only 19.8%, while N = 4 found 29.4%.
-
-### 4. Where the energy goes ([energy_breakdown](results/visuals/energy_breakdown.png))
-
-| | Driveline losses | Aero | Rolling | Kinetic energy over the line | Total |
-| --- | --- | --- | --- | --- | --- |
-| rolling, constant | 68 | 156 | 222 | 219 | 664 kJ |
-| rolling, N = 8 | 48 | 147 | 220 | 60 | 474 kJ |
-| flat, constant | 70 | 161 | 223 | 230 | 683 kJ |
-| flat, N = 16 | 46 | 140 | 220 | 49 | 455 kJ |
-
-Rolling resistance is almost the same for every strategy, because it is set mainly by the distance. Aero drops a little. **Most of the saving (about 160–180 kJ of the roughly 190–230 kJ) is kinetic energy not carried over the finish line.** This is because the brief has no finishing-speed requirement and coasting costs zero shaft work. The saving belongs to the whole drive. It is not caused by the hill: the flat course saves more than the rolling one.
-
-## Conventions
-
-* **Integration:** explicit 0.1 s steps with force taken at the start of the step and constant acceleration within it. Motion is forward-only.
-* **Finish:** the final step is fractional and ends exactly at the line; the same fraction applies to time and energy.
-* **Energy:** `P = T·rpm·2π/60`, `ΔE = P·Δt`. Forecasts do not count. Zero throttle means zero shaft torque.
-* **Launch:** clutch slip at 850 rpm in 1st gear for journeys, and at 3000 rpm for the acceleration test.
-* **Gear rule:** every 0.1 s the controller runs a 1.0 s forecast for down/hold/up.
-  * An upshift needs no dip in speed and +0.10 m/s by the end of the forecast; holding a gear needs only a level forecast.
-  * A struggling gear (one that cannot hold speed even at full throttle) is downshifted.
-  * Otherwise the lowest-energy candidate wins, holding the gear on a tie.
-  * Gears outside 1200–6250 rpm are illegal.
-* **Optimiser:**
-  * Nested Nelder–Mead. The outer search starts from N + 1 vertices (a flat shape plus a +0.25 perturbation of each section) and restarts while energy improves by more than 50 J.
-  * The inner search finds the scale k from starts 0.30 and 0.40.
-  * Only finished, in-window runs can win.
-  * Settings and termination reasons are in `results/full/runs.json`.
+* **All inputs are substitutes.** The terrain, torque curve and controller rules are not recovered originals.
+* **Most searches stopped on a budget or cap, not on convergence.** The budgets are declared in `config/experiment.json`; most runs show "budget-limited: yes" in the report.
+* **The ±0.1 s window adds about ±0.4 kJ of noise** to any single energy figure. Treat differences under about 1 kJ between methods at the same N as ties, unless the re-timed table agrees.

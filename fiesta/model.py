@@ -39,7 +39,8 @@ N_VEH = 16
 # ---- control/simulation parameter vector indices --------------------------
 C_DT, C_NH, C_UPM, C_DIP, C_X34, C_HOLD, C_UPCHK, C_TIE = 0, 1, 2, 3, 4, 5, 6, 7
 C_MAXT, C_STALL, C_LEN, C_MODE, C_SHIFT_RPM, C_SHIFT_T = 8, 9, 10, 11, 12, 13
-N_CTRL = 14
+C_CTRL_EVERY = 14  # gear-controller update period in physics steps (1 = every step)
+N_CTRL = 15
 
 MODE_CONTROLLER = 0.0   # forecast-based gear selection (energy experiment)
 MODE_PERFORMANCE = 1.0  # full-load acceleration: upshift at shift_rpm
@@ -218,14 +219,20 @@ def struggling(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a):
 
 
 @njit(cache=True)
-def choose_gear(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, sec_len, C, fc):
+def choose_gear(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, sec_len, C, fc, ws):
     """Forecast down/hold/up from the same state and pick the next gear.
-    fc (3x4) receives rpm, wheel force, signed dv, energy for each candidate (NaN if illegal)."""
+    fc (3x4) receives rpm, wheel force, signed dv, energy for each candidate (NaN if illegal).
+    ws (4x3) is a caller-owned workspace (avoids per-step allocation): rows vend, vmin, energy, ok."""
     ng = ratios.shape[0]
-    vend = np.full(3, np.nan)
-    vmin = np.full(3, np.nan)
-    en = np.full(3, np.nan)
-    ok = np.zeros(3, dtype=np.bool_)
+    vend = ws[0]
+    vmin = ws[1]
+    en = ws[2]
+    okf = ws[3]
+    for j in range(3):
+        vend[j] = np.nan
+        vmin[j] = np.nan
+        en[j] = np.nan
+        okf[j] = 0.0
     for j in range(3):
         fc[j, 0] = np.nan
         fc[j, 1] = np.nan
@@ -237,7 +244,7 @@ def choose_gear(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th,
         if j != 1 and not legal(v, g, P, ratios):
             continue
         ve, vm, e, r0, f0 = forecast(x, v, g, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, sec_len, C)
-        ok[j] = True
+        okf[j] = 1.0
         vend[j] = ve
         vmin[j] = vm
         en[j] = e
@@ -246,47 +253,52 @@ def choose_gear(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th,
         fc[j, 2] = ve - v
         fc[j, 3] = e
 
+    ok0 = okf[0] > 0.5
+    ok1 = okf[1] > 0.5
+    ok2 = okf[2] > 0.5
     # explicit rpm-limit handling for the current gear
     rpm_now = locked_rpm(v, gear, P, ratios)
     if rpm_now > P[V_RPMLIM]:
-        if ok[2]:
+        if ok2:
             return gear + 1, D_FORCED_UP
         return gear, D_HOLD  # fuel cut in top gear
     if gear > 1 and rpm_now < P[V_MINRPM]:
-        if ok[0]:
+        if ok0:
             return gear - 1, D_FORCED_DOWN
         return gear, D_HOLD
 
     hold_str = struggling(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a)
     down_str = True
-    if ok[0]:
+    if ok0:
         down_str = struggling(x, v, gear - 1, P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a)
-    if hold_str and ok[0] and not down_str:
+    if hold_str and ok0 and not down_str:
         return gear - 1, D_DOWN_STRUGGLE
 
-    meets = np.zeros(3, dtype=np.bool_)
-    meets[1] = not hold_str
-    if ok[0]:
-        meets[0] = not down_str
-    if ok[2]:
+    m0 = False
+    m1 = not hold_str
+    m2 = False
+    if ok0:
+        m0 = not down_str
+    if ok2:
         if C[C_UPCHK] > 0.5:
             margin = C[C_UPM]
             if gear == 3:
                 margin += C[C_X34]
-            meets[2] = (vmin[2] >= v - C[C_DIP] - 1e-12) and (vend[2] >= v + margin - 1e-12)
+            m2 = (vmin[2] >= v - C[C_DIP] - 1e-12) and (vend[2] >= v + margin - 1e-12)
         else:
-            meets[2] = True  # margin disabled: any legal upshift is admissible
+            m2 = True  # margin disabled: any legal upshift is admissible
 
-    if not (meets[0] or meets[1] or meets[2]):
+    if not (m0 or m1 or m2):
         best = 1
         for j in range(3):
-            if ok[j] and vend[j] > vend[best] + 1e-12:
+            if okf[j] > 0.5 and vend[j] > vend[best] + 1e-12:
                 best = j
         return gear - 1 + best, D_ALL_STRUGGLE
 
-    best = 1 if meets[1] else -1
+    best = 1 if m1 else -1
     for j in (0, 2):
-        if not meets[j]:
+        mj = m0 if j == 0 else m2
+        if not mj:
             continue
         if best < 0:
             best = j
@@ -313,6 +325,7 @@ def simulate(P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, C, record):
     nsec = th.shape[0]
     sec_len = L / nsec
     fc = np.full((3, 4), np.nan)
+    ws = np.empty((4, 3))
 
     t = 0.0
     x = 0.0
@@ -325,6 +338,9 @@ def simulate(P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, C, record):
     status = TIMEOUT
     n = 0
     perf = C[C_MODE] > 0.5
+    every = int(C[C_CTRL_EVERY] + 0.5)
+    if every < 1:
+        every = 1
     while n < nmax - 1:
         i = seg_index(x, seg_len, nseg)
         thr = th[seg_index(x, sec_len, nsec)]
@@ -338,12 +354,16 @@ def simulate(P, ratios, tq_rpm, tq_nm, seg_len, sin_a, cos_a, th, C, record):
                 shifts += 1
                 decision = D_PERF_SHIFT
                 shift_left = C[C_SHIFT_T]
-        else:
+        elif n % every == 0:
             g_new, decision = choose_gear(x, v, gear, P, ratios, tq_rpm, tq_nm, seg_len,
-                                          sin_a, cos_a, th, sec_len, C, fc)
+                                          sin_a, cos_a, th, sec_len, C, fc, ws)
             if g_new != gear:
                 shifts += 1
                 gear = g_new
+        else:
+            for j in range(3):
+                for c in range(4):
+                    fc[j, c] = np.nan
         # torque interruption during a performance upshift; a partially interrupted
         # step delivers the step-averaged torque
         cut_frac = min(max(shift_left / dt, 0.0), 1.0)

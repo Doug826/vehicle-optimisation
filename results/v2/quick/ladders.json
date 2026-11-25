@@ -1,0 +1,1216 @@
+{
+ "A": {
+  "records": [
+   {
+    "method": "A",
+    "route": "rolling",
+    "n_sections": 1,
+    "feasible": true,
+    "energy_kJ": 664.4289788929519,
+    "saving_percent": 0.0,
+    "time_s": 119.94706748835826,
+    "residual_s": -0.05293251164174251,
+    "finish_speed_m_s": 19.847014046222103,
+    "shifts": 8,
+    "sims": 30,
+    "cache_hits": 1230,
+    "cumulative_sims": 30,
+    "first_feasible_at": 14,
+    "feasible_runs": 5,
+    "budget": 150,
+    "budget_limited": false,
+    "wall_s": 0.14914870000211522,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.43671875000000004
+    ],
+    "history": [
+     [
+      14,
+      664428.978892952
+     ]
+    ],
+    "stop": "converged",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 18,
+      "best": 665448.1158139434,
+      "message": "Optimization terminated successfully."
+     },
+     {
+      "leg": 1,
+      "nfev": 18,
+      "best": 665448.1158139434,
+      "message": "Optimization terminated successfully."
+     }
+    ],
+    "shapes": 36,
+    "feasible_shapes": 36,
+    "inner_msgs": {
+     "Optimization terminated successfully.": 36
+    },
+    "mean_sims_per_shape": 0.8333333333333334,
+    "nominal_k": 0.437103271484375
+   },
+   {
+    "method": "A",
+    "route": "rolling",
+    "n_sections": 2,
+    "feasible": true,
+    "energy_kJ": 485.9161703976991,
+    "saving_percent": 26.867101551272583,
+    "time_s": 120.01807623453185,
+    "residual_s": 0.018076234531847035,
+    "finish_speed_m_s": 10.214965984586282,
+    "shifts": 5,
+    "sims": 600,
+    "cache_hits": 2162,
+    "cumulative_sims": 600,
+    "first_feasible_at": 14,
+    "feasible_runs": 172,
+    "budget": 600,
+    "budget_limited": true,
+    "wall_s": 1.798881699971389,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.6298828125000002,
+     0.0
+    ],
+    "history": [
+     [
+      14,
+      664428.978892952
+     ],
+     [
+      46,
+      627707.6084572776
+     ],
+     [
+      49,
+      627244.1950271104
+     ],
+     [
+      54,
+      627179.512899638
+     ],
+     [
+      57,
+      627021.827580236
+     ],
+     [
+      105,
+      590224.0209889984
+     ],
+     [
+      110,
+      590164.805440377
+     ],
+     [
+      136,
+      547834.2173723421
+     ],
+     [
+      139,
+      547516.491494067
+     ],
+     [
+      144,
+      547351.404187854
+     ],
+     [
+      147,
+      547296.9208393364
+     ],
+     [
+      170,
+      537143.523640824
+     ],
+     [
+      175,
+      537095.7326649219
+     ],
+     [
+      184,
+      537059.2445814757
+     ],
+     [
+      213,
+      505941.7224229318
+     ],
+     [
+      215,
+      505871.75750488887
+     ],
+     [
+      237,
+      486103.0998993244
+     ],
+     [
+      242,
+      485916.1703976991
+     ]
+    ],
+    "stop": "budget exhausted",
+    "legs": [
+     {
+      "leg": 0,
+      "message": "stopped: simulation budget exhausted"
+     }
+    ],
+    "shapes": 73,
+    "feasible_shapes": 72,
+    "inner_msgs": {
+     "Optimization terminated successfully.": 69,
+     "Maximum number of function evaluations has been exceeded.": 3
+    },
+    "mean_sims_per_shape": 7.930555555555555,
+    "nominal_k": 0.6300292968750003
+   },
+   {
+    "method": "A",
+    "route": "rolling",
+    "n_sections": 4,
+    "feasible": true,
+    "energy_kJ": 485.1551251141212,
+    "saving_percent": 26.98164280515437,
+    "time_s": 120.01716274456237,
+    "residual_s": 0.01716274456236988,
+    "finish_speed_m_s": 10.056886575523126,
+    "shifts": 6,
+    "sims": 1500,
+    "cache_hits": 293,
+    "cumulative_sims": 1500,
+    "first_feasible_at": 14,
+    "feasible_runs": 364,
+    "budget": 1500,
+    "budget_limited": true,
+    "wall_s": 4.416048100043554,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.6760742187500002,
+     0.5835839774699852,
+     0.0,
+     0.0
+    ],
+    "history": [
+     [
+      14,
+      664428.978892952
+     ],
+     [
+      44,
+      637620.8406861869
+     ],
+     [
+      46,
+      636478.1191375143
+     ],
+     [
+      164,
+      616271.6282019559
+     ],
+     [
+      165,
+      616029.3408572798
+     ],
+     [
+      170,
+      615912.9034155477
+     ],
+     [
+      171,
+      615724.0643560893
+     ],
+     [
+      193,
+      581139.4143496078
+     ],
+     [
+      201,
+      581058.8718347388
+     ],
+     [
+      257,
+      578545.2498267732
+     ],
+     [
+      261,
+      578530.3681748773
+     ],
+     [
+      264,
+      578440.2520518152
+     ],
+     [
+      266,
+      578395.1883746225
+     ],
+     [
+      279,
+      549901.8848281342
+     ],
+     [
+      288,
+      549842.7779861173
+     ],
+     [
+      294,
+      549777.4665949988
+     ],
+     [
+      297,
+      549777.4665949984
+     ],
+     [
+      316,
+      541012.6637419615
+     ],
+     [
+      318,
+      540734.6626275105
+     ],
+     [
+      321,
+      540727.9261985932
+     ],
+     [
+      322,
+      540461.3740638035
+     ],
+     [
+      348,
+      506933.88908207207
+     ],
+     [
+      439,
+      499343.14250995504
+     ],
+     [
+      468,
+      494721.4876637978
+     ],
+     [
+      470,
+      494474.6778978995
+     ],
+     [
+      536,
+      493154.5453109991
+     ],
+     [
+      541,
+      492723.58250105515
+     ],
+     [
+      559,
+      489336.9733575636
+     ],
+     [
+      639,
+      488741.5243209427
+     ],
+     [
+      642,
+      488696.75187435606
+     ],
+     [
+      664,
+      487294.4927763207
+     ],
+     [
+      677,
+      486915.68682646437
+     ],
+     [
+      843,
+      486357.4512321164
+     ],
+     [
+      854,
+      486297.56456498115
+     ],
+     [
+      875,
+      485420.35696041613
+     ],
+     [
+      885,
+      485301.5167632967
+     ],
+     [
+      1216,
+      485197.0185537364
+     ],
+     [
+      1442,
+      485155.1251141212
+     ]
+    ],
+    "stop": "budget exhausted",
+    "legs": [
+     {
+      "leg": 0,
+      "message": "stopped: simulation budget exhausted"
+     }
+    ],
+    "shapes": 47,
+    "feasible_shapes": 43,
+    "inner_msgs": {
+     "Optimization terminated successfully.": 23,
+     "Maximum number of function evaluations has been exceeded.": 20,
+     "no feasible scale found (Maximum number of function evaluations has been exceeded.)": 3
+    },
+    "mean_sims_per_shape": 32.15217391304348,
+    "nominal_k": 0.6332153320312504
+   }
+  ],
+  "wall_s": 6.364779600000475
+ },
+ "B": {
+  "records": [
+   {
+    "method": "B",
+    "route": "rolling",
+    "n_sections": 1,
+    "feasible": true,
+    "energy_kJ": 663.5178705214089,
+    "saving_percent": 0.13712652525499,
+    "time_s": 120.08458141568403,
+    "residual_s": 0.08458141568402766,
+    "finish_speed_m_s": 19.84331072360652,
+    "shifts": 8,
+    "sims": 6,
+    "cache_hits": 35,
+    "cumulative_sims": 6,
+    "first_feasible_at": 6,
+    "feasible_runs": 1,
+    "budget": 150,
+    "budget_limited": false,
+    "wall_s": 0.025439599994570017,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.4357500000000001
+    ],
+    "history": [
+     [
+      6,
+      663517.8705214089
+     ]
+    ],
+    "stop": "converged",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 18,
+      "best": 663517.8705214089,
+      "message": "Optimization terminated successfully."
+     },
+     {
+      "leg": 1,
+      "nfev": 18,
+      "best": 663517.8705214089,
+      "message": "Optimization terminated successfully."
+     }
+    ],
+    "shapes": 36,
+    "feasible_shapes": 36,
+    "inner_msgs": {
+     "hit by bisect": 1,
+     "hit at nominal scale": 35
+    },
+    "mean_sims_per_shape": 0.16666666666666666,
+    "nominal_k": 0.4357500000000001
+   },
+   {
+    "method": "B",
+    "route": "rolling",
+    "n_sections": 2,
+    "feasible": true,
+    "energy_kJ": 485.84035948640513,
+    "saving_percent": 26.878511485773068,
+    "time_s": 120.09636777303791,
+    "residual_s": 0.09636777303791177,
+    "finish_speed_m_s": 10.22964509676861,
+    "shifts": 7,
+    "sims": 397,
+    "cache_hits": 373,
+    "cumulative_sims": 397,
+    "first_feasible_at": 6,
+    "feasible_runs": 226,
+    "budget": 600,
+    "budget_limited": true,
+    "wall_s": 1.2457304999697953,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.6288713775681042,
+     0.0011782133537575723
+    ],
+    "history": [
+     [
+      6,
+      663517.8705214089
+     ],
+     [
+      17,
+      627076.8495356571
+     ],
+     [
+      28,
+      589172.4324499051
+     ],
+     [
+      34,
+      546496.4415390098
+     ],
+     [
+      37,
+      537281.3137654555
+     ],
+     [
+      46,
+      505718.9611427563
+     ],
+     [
+      56,
+      486246.04423900176
+     ],
+     [
+      126,
+      485840.35948640516
+     ]
+    ],
+    "stop": "shape-evaluation cap",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 600,
+      "best": 486380.21722533816,
+      "message": "Maximum number of function evaluations has been exceeded."
+     }
+    ],
+    "shapes": 600,
+    "feasible_shapes": 599,
+    "inner_msgs": {
+     "hit by bisect": 26,
+     "hit at nominal scale": 573,
+     "no feasible scale found": 1
+    },
+    "mean_sims_per_shape": 0.6616666666666666,
+    "nominal_k": 0.6298960239663709
+   },
+   {
+    "method": "B",
+    "route": "rolling",
+    "n_sections": 4,
+    "feasible": true,
+    "energy_kJ": 484.6541758602083,
+    "saving_percent": 27.05703826047414,
+    "time_s": 120.09961839008174,
+    "residual_s": 0.09961839008174422,
+    "finish_speed_m_s": 9.794814695425872,
+    "shifts": 6,
+    "sims": 1258,
+    "cache_hits": 1134,
+    "cumulative_sims": 1258,
+    "first_feasible_at": 6,
+    "feasible_runs": 362,
+    "budget": 1500,
+    "budget_limited": true,
+    "wall_s": 4.146547100041062,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.7464807853015507,
+     0.51347911090497,
+     0.0,
+     0.0
+    ],
+    "history": [
+     [
+      6,
+      663517.8705214089
+     ],
+     [
+      16,
+      637659.0181781743
+     ],
+     [
+      49,
+      616376.0355346152
+     ],
+     [
+      55,
+      581174.421495257
+     ],
+     [
+      69,
+      578147.8519076942
+     ],
+     [
+      74,
+      549899.2201188506
+     ],
+     [
+      82,
+      541457.6614123728
+     ],
+     [
+      92,
+      506040.3720773699
+     ],
+     [
+      115,
+      499924.4205988773
+     ],
+     [
+      124,
+      494650.07127973164
+     ],
+     [
+      136,
+      493609.0943469564
+     ],
+     [
+      145,
+      489562.4453553203
+     ],
+     [
+      158,
+      488789.3024818153
+     ],
+     [
+      166,
+      487215.3063846807
+     ],
+     [
+      217,
+      486454.65620137705
+     ],
+     [
+      226,
+      486003.3978025541
+     ],
+     [
+      296,
+      485916.04994077014
+     ],
+     [
+      313,
+      485454.8674937556
+     ],
+     [
+      439,
+      485362.82554728846
+     ],
+     [
+      535,
+      485123.76414276904
+     ],
+     [
+      797,
+      484654.1758602083
+     ]
+    ],
+    "stop": "shape-evaluation cap",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 1500,
+      "best": 485854.4974868451,
+      "message": "Maximum number of function evaluations has been exceeded."
+     }
+    ],
+    "shapes": 1500,
+    "feasible_shapes": 1496,
+    "inner_msgs": {
+     "hit by bisect": 109,
+     "no feasible scale found": 4,
+     "hit by subdivision": 2,
+     "hit at nominal scale": 1385
+    },
+    "mean_sims_per_shape": 0.8386666666666667,
+    "nominal_k": 0.7487957884710049
+   }
+  ],
+  "wall_s": 5.418579199991655
+ },
+ "C": {
+  "records": [
+   {
+    "method": "C",
+    "route": "rolling",
+    "n_sections": 1,
+    "feasible": true,
+    "energy_kJ": 663.5178705214089,
+    "saving_percent": 0.13712652525499,
+    "time_s": 120.08458141568403,
+    "residual_s": 0.08458141568402766,
+    "finish_speed_m_s": 19.84331072360652,
+    "shifts": 8,
+    "sims": 6,
+    "cache_hits": 35,
+    "cumulative_sims": 6,
+    "first_feasible_at": 6,
+    "feasible_runs": 1,
+    "budget": 150,
+    "budget_limited": false,
+    "wall_s": 0.01784019998740405,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.4357500000000001
+    ],
+    "history": [
+     [
+      6,
+      663517.8705214089
+     ]
+    ],
+    "stop": "converged",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 18,
+      "best": 663517.8705214089,
+      "message": "Optimization terminated successfully."
+     },
+     {
+      "leg": 1,
+      "nfev": 18,
+      "best": 663517.8705214089,
+      "message": "Optimization terminated successfully."
+     }
+    ],
+    "shapes": 36,
+    "feasible_shapes": 36,
+    "inner_msgs": {
+     "hit by bisect": 1,
+     "hit at nominal scale": 35
+    },
+    "mean_sims_per_shape": 0.16666666666666666,
+    "nominal_k": 0.4357500000000001
+   },
+   {
+    "method": "C",
+    "route": "rolling",
+    "n_sections": 2,
+    "feasible": true,
+    "energy_kJ": 485.91074524197546,
+    "saving_percent": 26.86791806528626,
+    "time_s": 120.0190047940914,
+    "residual_s": 0.019004794091401322,
+    "finish_speed_m_s": 10.214768227841153,
+    "shifts": 5,
+    "sims": 159,
+    "cache_hits": 578,
+    "cumulative_sims": 165,
+    "first_feasible_at": 7,
+    "feasible_runs": 22,
+    "budget": 600,
+    "budget_limited": true,
+    "wall_s": 0.4940047000418417,
+    "inherited_replay_identical": true,
+    "throttle": [
+     0.6298808453996447,
+     0.0
+    ],
+    "history": [
+     [
+      7,
+      663517.8705214089
+     ],
+     [
+      18,
+      627076.8495356571
+     ],
+     [
+      29,
+      589172.4324499051
+     ],
+     [
+      35,
+      546496.4415390098
+     ],
+     [
+      38,
+      537281.3137654555
+     ],
+     [
+      47,
+      505718.9611427563
+     ],
+     [
+      57,
+      486246.04423900176
+     ],
+     [
+      114,
+      486043.304221613
+     ],
+     [
+      130,
+      486016.78970103874
+     ],
+     [
+      144,
+      485910.74524197547
+     ]
+    ],
+    "stop": "shape-evaluation cap",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 600,
+      "best": 485911.6342907336,
+      "message": "Maximum number of function evaluations has been exceeded."
+     }
+    ],
+    "shapes": 600,
+    "feasible_shapes": 599,
+    "inner_msgs": {
+     "hit at nominal scale": 579,
+     "hit by bisect": 20,
+     "no feasible scale found": 1
+    },
+    "mean_sims_per_shape": 0.2633333333333333,
+    "nominal_k": 0.6310719109029669
+   },
+   {
+    "method": "C",
+    "route": "rolling",
+    "n_sections": 4,
+    "feasible": true,
+    "energy_kJ": 484.78498455138134,
+    "saving_percent": 27.037350875467098,
+    "time_s": 120.07867028594937,
+    "residual_s": 0.07867028594937153,
+    "finish_speed_m_s": 9.887315967985089,
+    "shifts": 9,
+    "sims": 801,
+    "cache_hits": 1134,
+    "cumulative_sims": 966,
+    "first_feasible_at": 166,
+    "feasible_runs": 366,
+    "budget": 1500,
+    "budget_limited": true,
+    "wall_s": 2.5841207000194117,
+    "inherited_replay_identical": true,
+    "throttle": [
+     0.7124116180548551,
+     0.5476364992802093,
+     0.00047950530643253096,
+     0.0
+    ],
+    "history": [
+     [
+      166,
+      485910.74524197547
+     ],
+     [
+      177,
+      485474.9315477321
+     ],
+     [
+      416,
+      485463.9800763249
+     ],
+     [
+      463,
+      485249.8056546335
+     ],
+     [
+      509,
+      484817.32079924823
+     ],
+     [
+      675,
+      484784.9845513813
+     ]
+    ],
+    "stop": "shape-evaluation cap",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 1500,
+      "best": 484828.7600263189,
+      "message": "Maximum number of function evaluations has been exceeded."
+     }
+    ],
+    "shapes": 1500,
+    "feasible_shapes": 1499,
+    "inner_msgs": {
+     "hit at nominal scale": 1441,
+     "hit by bisect": 56,
+     "hit while bracketing": 1,
+     "no feasible scale found": 1,
+     "hit by subdivision": 1
+    },
+    "mean_sims_per_shape": 0.5333333333333333,
+    "nominal_k": 0.7146379043612765
+   }
+  ],
+  "wall_s": 3.0965253000031225
+ },
+ "D": {
+  "records": [
+   {
+    "method": "D",
+    "route": "rolling",
+    "n_sections": 1,
+    "feasible": true,
+    "energy_kJ": 664.3851327583037,
+    "saving_percent": 0.006599070185253504,
+    "time_s": 119.94229398257488,
+    "residual_s": -0.057706017425118716,
+    "finish_speed_m_s": 19.859242786668187,
+    "shifts": 8,
+    "sims": 21,
+    "cache_hits": 273,
+    "cumulative_sims": 21,
+    "first_feasible_at": 4,
+    "feasible_runs": 13,
+    "budget": 150,
+    "budget_limited": false,
+    "wall_s": 0.058838299999479204,
+    "inherited_replay_identical": null,
+    "throttle": [
+     0.43668609290794097
+    ],
+    "history": [
+     [
+      4,
+      664608.123583561
+     ],
+     [
+      7,
+      664481.7668051897
+     ],
+     [
+      9,
+      664387.3299905438
+     ],
+     [
+      11,
+      664385.530643666
+     ],
+     [
+      21,
+      664385.1327583037
+     ]
+    ],
+    "stop": "converged",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 18,
+      "best": 664677.7920376353,
+      "message": "Optimization terminated successfully."
+     },
+     {
+      "leg": 1,
+      "nfev": 18,
+      "best": 664677.7920376353,
+      "message": "Optimization terminated successfully."
+     }
+    ],
+    "shapes": 36,
+    "feasible_shapes": 36,
+    "inner_msgs": {
+     "in window, tighter target not reached (r(k) jumps over the window at 1 place(s))": 36
+    },
+    "mean_sims_per_shape": 0.5833333333333334,
+    "nominal_k": 0.4366854533410375
+   },
+   {
+    "method": "D",
+    "route": "rolling",
+    "n_sections": 2,
+    "feasible": true,
+    "energy_kJ": 486.0500297472737,
+    "saving_percent": 26.84695502638776,
+    "time_s": 120.04486732596833,
+    "residual_s": 0.0448673259683261,
+    "finish_speed_m_s": 10.19921735519445,
+    "shifts": 5,
+    "sims": 248,
+    "cache_hits": 580,
+    "cumulative_sims": 269,
+    "first_feasible_at": 22,
+    "feasible_runs": 118,
+    "budget": 600,
+    "budget_limited": true,
+    "wall_s": 0.7722363999928348,
+    "inherited_replay_identical": true,
+    "throttle": [
+     0.6299313426194719,
+     0.0
+    ],
+    "history": [
+     [
+      22,
+      664385.1327583037
+     ],
+     [
+      38,
+      627468.0180318202
+     ],
+     [
+      50,
+      590693.6025708374
+     ],
+     [
+      52,
+      590624.6550343599
+     ],
+     [
+      53,
+      590521.6422637881
+     ],
+     [
+      67,
+      546223.9065077519
+     ],
+     [
+      68,
+      546213.8297977153
+     ],
+     [
+      72,
+      546188.699599826
+     ],
+     [
+      74,
+      546182.6999421365
+     ],
+     [
+      86,
+      537694.8930400513
+     ],
+     [
+      87,
+      537220.8785150923
+     ],
+     [
+      88,
+      537090.5674097831
+     ],
+     [
+      91,
+      537074.7871804233
+     ],
+     [
+      92,
+      537063.0962200952
+     ],
+     [
+      93,
+      537054.2100061877
+     ],
+     [
+      95,
+      537052.8598806724
+     ],
+     [
+      96,
+      537051.7803416853
+     ],
+     [
+      97,
+      537050.9150980955
+     ],
+     [
+      98,
+      537050.2202841912
+     ],
+     [
+      105,
+      505832.71406769735
+     ],
+     [
+      106,
+      505541.3266203209
+     ],
+     [
+      124,
+      487539.9263883093
+     ],
+     [
+      126,
+      486466.4645338513
+     ],
+     [
+      206,
+      486330.63279303943
+     ],
+     [
+      219,
+      486050.0297472737
+     ]
+    ],
+    "stop": "shape-evaluation cap",
+    "legs": [
+     {
+      "leg": 0,
+      "nfev": 600,
+      "best": 486255.4869556721,
+      "message": "Maximum number of function evaluations has been exceeded."
+     }
+    ],
+    "shapes": 600,
+    "feasible_shapes": 599,
+    "inner_msgs": {
+     "in window, tighter target not reached (r(k) jumps over the window at 1 place(s))": 6,
+     "hit while bracketing": 1,
+     "hit by interpolate": 10,
+     "hit at nominal scale": 579,
+     "in window, tighter target not reached (r(k) jumps over the window at 3 place(s))": 1,
+     "no feasible scale found": 1,
+     "hit by subdivision": 2
+    },
+    "mean_sims_per_shape": 0.4116666666666667,
+    "nominal_k": 0.6300599602354908
+   },
+   {
+    "method": "D",
+    "route": "rolling",
+    "n_sections": 4,
+    "feasible": true,
+    "energy_kJ": 484.9406836158346,
+    "saving_percent": 27.013917360464088,
+    "time_s": 120.05882197888286,
+    "residual_s": 0.058821978882861004,
+    "finish_speed_m_s": 9.806987255595029,
+    "shifts": 6,
+    "sims": 1500,
+    "cache_hits": 1,
+    "cumulative_sims": 1769,
+    "first_feasible_at": 270,
+    "feasible_runs": 616,
+    "budget": 1500,
+    "budget_limited": true,
+    "wall_s": 4.811761999968439,
+    "inherited_replay_identical": true,
+    "throttle": [
+     0.7462487056287039,
+     0.5150361292385116,
+     0.0,
+     0.0
+    ],
+    "history": [
+     [
+      270,
+      486050.0297472737
+     ],
+     [
+      298,
+      485653.2182349713
+     ],
+     [
+      402,
+      485620.8996530058
+     ],
+     [
+      446,
+      485538.7608150751
+     ],
+     [
+      447,
+      485478.3159326187
+     ],
+     [
+      448,
+      485438.1822013119
+     ],
+     [
+      449,
+      485380.45778962836
+     ],
+     [
+      450,
+      485343.24318251846
+     ],
+     [
+      451,
+      485317.81192485633
+     ],
+     [
+      452,
+      485299.7336876121
+     ],
+     [
+      453,
+      485286.51900830696
+     ],
+     [
+      454,
+      485276.6612375693
+     ],
+     [
+      455,
+      485269.19563286693
+     ],
+     [
+      456,
+      485263.4767165767
+     ],
+     [
+      457,
+      485259.0573602381
+     ],
+     [
+      458,
+      485255.6191271921
+     ],
+     [
+      459,
+      485252.9301305197
+     ],
+     [
+      476,
+      485045.8276904481
+     ],
+     [
+      477,
+      485036.9504852461
+     ],
+     [
+      478,
+      485030.78129724035
+     ],
+     [
+      480,
+      485029.51428178
+     ],
+     [
+      481,
+      485028.6201886858
+     ],
+     [
+      665,
+      484940.68361583457
+     ]
+    ],
+    "stop": "budget exhausted",
+    "legs": [
+     {
+      "leg": 0,
+      "message": "stopped: simulation budget exhausted"
+     }
+    ],
+    "shapes": 109,
+    "feasible_shapes": 106,
+    "inner_msgs": {
+     "in window, tighter target not reached (r(k) jumps over the window at 1 place(s))": 50,
+     "hit by interpolate": 42,
+     "hit by subdivision": 4,
+     "in window, tighter target not reached (budget spent)": 2,
+     "no feasible scale found": 2,
+     "hit at nominal scale": 6,
+     "in window, tighter target not reached (r(k) jumps over the window at 3 place(s))": 2
+    },
+    "mean_sims_per_shape": 13.518518518518519,
+    "nominal_k": 0.7369040118001072
+   }
+  ],
+  "wall_s": 5.643511199974455
+ }
+}

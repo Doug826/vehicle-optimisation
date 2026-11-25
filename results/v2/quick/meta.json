@@ -1,0 +1,151 @@
+{
+ "mode": "quick",
+ "versions": {
+  "python": "3.14.7",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numpy": "2.5.2",
+  "scipy": "1.18.1",
+  "matplotlib": "3.11.2",
+  "numba": "0.68.1"
+ },
+ "inputs": {
+  "source": "../fiesta-reconstruction (read-only)",
+  "source_git_commit": "71810ce04e8dfd0b969d33814f97b0524022623a",
+  "source_tag": "v1.0.0",
+  "sha256": {
+   "fiesta/model.py": "e67a42e43e55f1a77b9fe04303b46889d987f80c5aef31ea941218714311356a",
+   "fiesta/config.py": "0971ae01648957fd418344c375d07c6fd21ad581b08a3445835e18e924e8c584",
+   "fiesta/performance.py": "c743267935eb78b7c7843791e0b34ff230e555130df096d5a178fd220daad557",
+   "results\\reference-case\\config_used.json": "26228ed49f753c767b3617f79b550b6acaa950e8cb160e25c5f7d8f28934121f",
+   "results\\reference-case\\expected_results.json": "d8bac7ca4b201b32e1e576fa318756b4ac5aca6db490a530d8a2325182a51a61",
+   "results\\reference-case\\README.md": "1fa12b6cebf963890f4e900874d49441590c0cbdcc7e7ccb4264a2f13183eb7a",
+   "results\\reference-case\\resolved_cases.json": "da3b4ad9ca466ec64e2cb55d436b28e91d873f6fdc5fdd92c0a267343d4c13cd",
+   "results\\reference-case\\software_versions.json": "c4b9048b6d532711c1d9cd5c538c8d9ccf07fbb797cbb6804dc0abde295bbc39",
+   "results\\reference-case\\solver_settings.json": "6dfa96778cd1d36a1c7efcd351908811fe72650a151d50dc7bce8600e7d0b3c7",
+   "results\\reference-case\\summary.csv": "3a57aea8d0d2670baef1b397d086db76a4140ca245a2abd9b688000ca412eb6b",
+   "results\\reference-case\\summary.md": "f8fe65e6deba12b18f4198e9360349eb25e0c984d5ba8124dc0460eb691f48cc",
+   "results\\reference-case\\throttle_vectors.json": "ffe662156cecd1c8a89c82bf58960f1b3671ff0c778ed30701980235e989e7ea",
+   "results\\reference-case\\timeseries\\flat_best_N16.csv": "7c5876cacb79ea6b39a8008bfa2c50978ef24ca9162f6f2883338d7356ac25c3",
+   "results\\reference-case\\timeseries\\flat_constant.csv": "f8735eafe849ddc1deca97e02de4dc61ca09b5016632211e0c4f4271d60effad",
+   "results\\reference-case\\timeseries\\rolling_best_N08.csv": "da3a937db8b702376d8fdb342f7e43f1a08caefa9ce48e5bf54fdc1382b0ca5f",
+   "results\\reference-case\\timeseries\\rolling_constant.csv": "ec2474ca807d2f3e6711ea6aec0ee5cc5169626f69f89610f1ec8829048af106"
+  }
+ },
+ "experiment_config": {
+  "_about": "Experiment settings for brief v2. Vehicle, routes, dynamics and gear controller come from config/vehicle_route.json (copied unchanged from the v1 reference case).",
+  "route": "rolling",
+  "section_counts": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32
+  ],
+  "extra_section_counts_method_C": [
+   64
+  ],
+  "budget_sims": {
+   "1": 300,
+   "2": 1500,
+   "4": 4000,
+   "8": 8000,
+   "16": 15000,
+   "32": 25000,
+   "64": 35000
+  },
+  "_budget_note": "Whole-route simulations per resolution, identical for A/B/C. Cache hits are free and counted separately; the cache is per search with the same policy for every method. Method C is additionally charged for its coarse solves when reporting cumulative calls.",
+  "inner": {
+   "nm_start_scales": [
+    0.3,
+    0.4
+   ],
+   "nm_xatol": 1e-05,
+   "nm_fatol_s": 0.01,
+   "nm_maxfev": 40,
+   "k_min": 0.02,
+   "k_nominal": 0.4,
+   "probe_step": 0.05,
+   "k_jump_width": 1e-06,
+   "bisect_max_sims": 40,
+   "split": "midpoint"
+  },
+  "outer": {
+   "initial_shape": 1.0,
+   "perturbation": 0.25,
+   "xatol": 0.001,
+   "fatol_J": 50.0,
+   "restarts": 6,
+   "infeasible_penalty_J": 10000000.0,
+   "max_shape_evals_per_sim": 1.0,
+   "scale_regulariser_J": 1000.0
+  },
+  "methods": {
+   "A": {
+    "inner": "nelder-mead",
+    "start": "flat",
+    "label": "A: scalar NM inner, flat start (historical)"
+   },
+   "B": {
+    "inner": "bisection",
+    "start": "flat",
+    "label": "B: bisection inner, flat start"
+   },
+   "C": {
+    "inner": "bisection",
+    "start": "inherit",
+    "label": "C: bisection inner, inherited coarse profile"
+   },
+   "D": {
+    "inner": "bisection",
+    "start": "inherit",
+    "split": "interpolate",
+    "accept_tol_s": 0.02,
+    "label": "D (extra): C + safeguarded secant splits + scoring at |r| <= 0.02 s"
+   }
+  },
+  "multistart": {
+   "n_sections": 8,
+   "perturbations": [
+    0.25,
+    -0.25,
+    0.1,
+    0.5,
+    "random:1",
+    "random:2"
+   ],
+   "_note": "Outer simplex = start + p * e_i. 'random:s' = seeded uniform(-0.3, 0.3) per section (numpy default_rng(s))."
+  },
+  "retime_residual_s": 0.01,
+  "finish_speed": {
+   "tolerance_m_s": 0.2,
+   "n_sections": [
+    8,
+    16
+   ],
+   "budget_sims": 15000,
+   "_note": "New experimental choice (brief v2): optimised car must finish within 0.2 m/s of the constant-throttle car, inside the original time window. Seeded with the feasible constant profile."
+  },
+  "time_step": {
+   "dt_s": [
+    0.1,
+    0.05,
+    0.025
+   ],
+   "update_period_s": 0.1,
+   "horizon_s": 1.0
+  },
+  "hunting": {
+   "route": "steep_hill",
+   "throttle": 0.7,
+   "reversal_window_s": 2.0
+  },
+  "inner_comparison": {
+   "random_shapes": 40,
+   "seed": 7,
+   "scan_points": 600
+  }
+ },
+ "reference_parity": true,
+ "wall_s": 12.490226500027347
+}

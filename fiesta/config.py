@@ -12,7 +12,7 @@ import numpy as np
 from . import model as M
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONFIG = ROOT / "config" / "substitute.json"
+DEFAULT_CONFIG = ROOT / "config" / "vehicle_route.json"
 
 
 def load_config(path: str | Path | None = None) -> dict:
@@ -107,6 +107,13 @@ class Case:
         C[M.C_STALL] = sim["stall_time_s"]
         C[M.C_LEN] = self.length
         C[M.C_MODE] = M.MODE_CONTROLLER
+        # controller update period and forecast horizon are fixed in seconds; the
+        # physics step may be refined independently (time-step sensitivity study)
+        upd = ctl.get("update_period_s", dt)
+        every = upd / dt
+        if abs(every - round(every)) > 1e-9:
+            raise ValueError("update_period_s must be a whole number of physics steps")
+        C[M.C_CTRL_EVERY] = round(every)
         self.C = C
         self.target = sim["target_time_s"]
         self.tol = sim["time_tolerance_s"]

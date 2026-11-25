@@ -1,0 +1,63 @@
+{
+  "_about": "Experiment settings for brief v2. Vehicle, routes, dynamics and gear controller come from config/vehicle_route.json (copied unchanged from the v1 reference case).",
+
+  "route": "rolling",
+  "section_counts": [1, 2, 4, 8, 16, 32],
+  "extra_section_counts_method_C": [64],
+
+  "budget_sims": {"1": 300, "2": 1500, "4": 4000, "8": 8000, "16": 15000, "32": 25000, "64": 35000},
+  "_budget_note": "Whole-route simulations per resolution, identical for A/B/C. Cache hits are free and counted separately; the cache is per search with the same policy for every method. Method C is additionally charged for its coarse solves when reporting cumulative calls.",
+
+  "inner": {
+    "nm_start_scales": [0.30, 0.40],
+    "nm_xatol": 1e-5,
+    "nm_fatol_s": 0.01,
+    "nm_maxfev": 40,
+    "k_min": 0.02,
+    "k_nominal": 0.40,
+    "probe_step": 0.05,
+    "k_jump_width": 1e-6,
+    "bisect_max_sims": 40,
+    "split": "midpoint"
+  },
+
+  "outer": {
+    "initial_shape": 1.0,
+    "perturbation": 0.25,
+    "xatol": 1e-3,
+    "fatol_J": 50.0,
+    "restarts": 6,
+    "infeasible_penalty_J": 1e7,
+    "max_shape_evals_per_sim": 1.0,
+    "scale_regulariser_J": 1000.0
+  },
+
+  "methods": {
+    "A": {"inner": "nelder-mead", "start": "flat", "label": "A: scalar NM inner, flat start (historical)"},
+    "B": {"inner": "bisection", "start": "flat", "label": "B: bisection inner, flat start"},
+    "C": {"inner": "bisection", "start": "inherit", "label": "C: bisection inner, inherited coarse profile"},
+    "D": {"inner": "bisection", "start": "inherit", "split": "interpolate", "accept_tol_s": 0.02,
+          "label": "D (extra): C + safeguarded secant splits + scoring at |r| <= 0.02 s"}
+  },
+
+  "multistart": {
+    "n_sections": 8,
+    "perturbations": [0.25, -0.25, 0.10, 0.50, "random:1", "random:2"],
+    "_note": "Outer simplex = start + p * e_i. 'random:s' = seeded uniform(-0.3, 0.3) per section (numpy default_rng(s))."
+  },
+
+  "retime_residual_s": 0.01,
+
+  "finish_speed": {
+    "tolerance_m_s": 0.2,
+    "n_sections": [8, 16],
+    "budget_sims": 15000,
+    "_note": "New experimental choice (brief v2): optimised car must finish within 0.2 m/s of the constant-throttle car, inside the original time window. Seeded with the feasible constant profile."
+  },
+
+  "time_step": {"dt_s": [0.1, 0.05, 0.025], "update_period_s": 0.1, "horizon_s": 1.0},
+
+  "hunting": {"route": "steep_hill", "throttle": 0.70, "reversal_window_s": 2.0},
+
+  "inner_comparison": {"random_shapes": 40, "seed": 7, "scan_points": 600}
+}
