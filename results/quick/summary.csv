@@ -1,0 +1,5 @@
+route,n_sections,status,time_s,energy_kJ,finish_speed_kmh,shifts,saving_percent,sim_calls,runtime_s,budget_limited,termination
+rolling,constant,finished,119.94706748835826,664.4289788929519,71.44925056639957,8,0.0,35,0.2820920000085607,False,Optimization terminated successfully.
+rolling,1,finished,119.94706748835826,664.4289788929519,71.44925056639957,8,0.0,525,1.1383815999724902,True,Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))
+rolling,2,finished,120.01807623453185,485.9161703976991,36.77387754451062,5,26.867101551272583,1511,5.344510200025979,True,Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))
+rolling,4,finished,120.09283969942146,484.85909773885714,35.651669907963715,9,27.026196457187613,3108,10.242701099952683,True,Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))

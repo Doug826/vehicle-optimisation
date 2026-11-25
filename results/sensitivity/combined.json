@@ -1,0 +1,126 @@
+[
+  {
+    "variant": "combined: rpm 1000 + 110 s + +/-0.5 s",
+    "route": "rolling",
+    "n_sections": 8,
+    "overrides": {
+      "vehicle.min_engaged_rpm": 1000.0,
+      "simulation.target_time_s": 110.0,
+      "simulation.time_tolerance_s": 0.5
+    },
+    "runtime_s": 119.75782960001379,
+    "budget_limited": false,
+    "baseline_kJ": 785.0817797560919,
+    "profile_kJ": 523.4186093329863,
+    "saving_percent": 33.32941575900522,
+    "baseline_finish_kmh": 82.16678579805544,
+    "profile_finish_kmh": 41.78431476108265,
+    "throttle": [
+      1.0,
+      0.5032681629692654,
+      0.7611933123884985,
+      0.17864453880186396,
+      0.35619099185304026,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "variant": "combined: rpm 1000 + 110 s + +/-0.5 s",
+    "route": "flat",
+    "n_sections": 8,
+    "overrides": {
+      "vehicle.min_engaged_rpm": 1000.0,
+      "simulation.target_time_s": 110.0,
+      "simulation.time_tolerance_s": 0.5
+    },
+    "runtime_s": 149.0689622000209,
+    "budget_limited": false,
+    "baseline_kJ": 929.6646198599548,
+    "profile_kJ": 723.3863627023308,
+    "saving_percent": 22.188459445589945,
+    "baseline_finish_kmh": 91.83813917713638,
+    "profile_finish_kmh": 73.07262229503326,
+    "throttle": [
+      0.4620955277458744,
+      0.45346106787708074,
+      0.46094264799405416,
+      0.5399536132812501,
+      0.47066427830669927,
+      0.4464636390241829,
+      0.44355478524387737,
+      0.38869157061135656
+    ]
+  },
+  {
+    "variant": "combined: rpm 1000 + 110 s + +/-0.5 s",
+    "route": "rolling",
+    "n_sections": 16,
+    "overrides": {
+      "vehicle.min_engaged_rpm": 1000.0,
+      "simulation.target_time_s": 110.0,
+      "simulation.time_tolerance_s": 0.5
+    },
+    "runtime_s": 121.91039140004432,
+    "budget_limited": false,
+    "baseline_kJ": 785.0817797560919,
+    "profile_kJ": 541.4010959209664,
+    "saving_percent": 31.03889175861804,
+    "baseline_finish_kmh": 82.16678579805544,
+    "profile_finish_kmh": 46.91036872885828,
+    "throttle": [
+      0.9683602426347362,
+      0.345626583463486,
+      0.8968450603176528,
+      0.9886718750000008,
+      0.12931171768740804,
+      0.5609055823012632,
+      0.5586671603217234,
+      0.0,
+      0.6200930588375063,
+      0.3237427043609526,
+      0.36671104434027385,
+      0.0,
+      0.09776671811462967,
+      0.003843900058441831,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "variant": "combined: rpm 1000 + 110 s + +/-0.5 s",
+    "route": "flat",
+    "n_sections": 16,
+    "overrides": {
+      "vehicle.min_engaged_rpm": 1000.0,
+      "simulation.target_time_s": 110.0,
+      "simulation.time_tolerance_s": 0.5
+    },
+    "runtime_s": 277.72409770003287,
+    "budget_limited": false,
+    "baseline_kJ": 929.6646198599548,
+    "profile_kJ": 613.497897005472,
+    "saving_percent": 34.008686154164955,
+    "baseline_finish_kmh": 91.83813917713638,
+    "profile_finish_kmh": 59.11481682352903,
+    "throttle": [
+      0.6368435510231409,
+      0.44139587424842597,
+      0.5870935176978898,
+      0.4505296955231935,
+      0.6185863252701023,
+      0.5820749756344924,
+      0.5086382841534097,
+      0.7179687500000003,
+      0.27264954917453893,
+      0.2761633099325347,
+      0.5798374073718648,
+      0.3838882934743218,
+      0.2578275936010155,
+      0.528192561985295,
+      0.019096566978801386,
+      0.044158230089213026
+    ]
+  }
+]

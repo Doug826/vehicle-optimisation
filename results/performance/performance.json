@@ -1,0 +1,142 @@
+{
+  "reference": {
+    "zero_to_100_kmh_s": 13.3,
+    "top_speed_kmh": 168.0,
+    "top_speed_mph": 104.0,
+    "_source": "published p.10: 168 km/h (104 mph), 0-100 km/h 13.3 s (manufacturer claim, not an independent road test)"
+  },
+  "acceleration": {
+    "brief_literal": {
+      "zero_to_60_mph_s": 10.863327002851971,
+      "zero_to_62_mph_s": 11.583775856222223,
+      "zero_to_100_kmh_s": 11.634177458940362,
+      "shift_speeds_kmh": [
+        45.97581960368236,
+        85.58524310415147,
+        128.90631869759946
+      ]
+    },
+    "documented": {
+      "zero_to_60_mph_s": 12.483237515289385,
+      "zero_to_62_mph_s": 13.24676671753532,
+      "zero_to_100_kmh_s": 13.300094453722787,
+      "shift_speeds_kmh": [
+        45.27763655039554,
+        85.83922812775336,
+        128.98072878190663
+      ]
+    }
+  },
+  "errors_vs_ford": {
+    "brief_literal": {
+      "zero_to_100_kmh_error_s": -1.6658225410596383
+    },
+    "documented": {
+      "zero_to_100_kmh_error_s": 9.445372278626962e-05
+    }
+  },
+  "top_speed": {
+    "steady_best": {
+      "gear": 4,
+      "v_max_kmh": 168.0012,
+      "v_max_mph": 104.3911059413028,
+      "engine_rpm": 6037.302761206994,
+      "limited_by": "power/drag balance",
+      "engine_power_kW": 57.86293649846846,
+      "wheel_power_kW": 52.07664284862161,
+      "resistive_power_kW": 52.07624632345481,
+      "aero_share": 0.8098715413528313,
+      "v_m_s": 46.667
+    },
+    "per_gear": [
+      {
+        "gear": 1,
+        "v_max_kmh": 46.1592,
+        "v_max_mph": 28.68199713672155,
+        "engine_rpm": 6249.641943364995,
+        "limited_by": "rpm limit",
+        "engine_power_kW": 55.636369026603646,
+        "wheel_power_kW": 50.072732123943275,
+        "resistive_power_kW": 2.5846269259395163,
+        "aero_share": 0.3384508545191839
+      },
+      {
+        "gear": 2,
+        "v_max_kmh": 85.8744,
+        "v_max_mph": 53.359878310665714,
+        "engine_rpm": 6249.85660753148,
+        "limited_by": "rpm limit",
+        "engine_power_kW": 55.63397155053513,
+        "wheel_power_kW": 50.070574395481614,
+        "resistive_power_kW": 9.426425419393624,
+        "aero_share": 0.5975342046167909
+      },
+      {
+        "gear": 3,
+        "v_max_kmh": 129.114,
+        "v_max_mph": 80.22772011453114,
+        "engine_rpm": 6249.892112821375,
+        "limited_by": "rpm limit",
+        "engine_power_kW": 55.63357498129176,
+        "wheel_power_kW": 50.07021748316258,
+        "resistive_power_kW": 25.851466535238654,
+        "aero_share": 0.7405484577777919
+      },
+      {
+        "gear": 4,
+        "v_max_kmh": 168.0012,
+        "v_max_mph": 104.3911059413028,
+        "engine_rpm": 6037.302761206994,
+        "limited_by": "power/drag balance",
+        "engine_power_kW": 57.86293649846846,
+        "wheel_power_kW": 52.07664284862161,
+        "resistive_power_kW": 52.07624632345481,
+        "aero_share": 0.8098715413528313
+      },
+      {
+        "gear": 5,
+        "v_max_kmh": 163.0728,
+        "v_max_mph": 101.32874015748033,
+        "engine_rpm": 4658.578076419074,
+        "limited_by": "power/drag balance",
+        "engine_power_kW": 53.377196782607854,
+        "wheel_power_kW": 48.03947710434707,
+        "resistive_power_kW": 48.0375223302688,
+        "aero_share": 0.8029391698125988
+      }
+    ],
+    "error_kmh": 0.0012000000000114142,
+    "error_mph": 0.3911059413027971,
+    "simulated_400s_full_throttle": {
+      "v_end_kmh": 168.001542029421,
+      "gear_end": 4,
+      "accel_end_m_s2": 8.532837204740122e-14
+    },
+    "brief_literal_same": 168.0012
+  },
+  "calibration_check": {
+    "frontal_area_m2": 2.0656194205341434,
+    "shift_time_s": 0.4978572488505506,
+    "zero_to_100_kmh_s": 13.299999999998773,
+    "zero_to_60_mph_s": 12.483141626751388,
+    "top_speed_kmh": 168.0012,
+    "top_speed_mph": 104.3911059413028
+  },
+  "gear_hunting": {
+    "throttle": 0.7,
+    "enabled": {
+      "shifts_on_climb": 1,
+      "shifts": 6,
+      "time_s": 119.35034833235711,
+      "energy_kJ": 1584.916994309617,
+      "status": "finished"
+    },
+    "disabled": {
+      "shifts_on_climb": 377,
+      "shifts": 382,
+      "time_s": 154.34137347570137,
+      "energy_kJ": 1352.085244367658,
+      "status": "finished"
+    }
+  }
+}

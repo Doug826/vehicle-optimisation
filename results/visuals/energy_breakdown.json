@@ -1,0 +1,30 @@
+{
+  "rolling: constant throttle": {
+    "driveline & clutch losses": 67.73995416448312,
+    "aerodynamic drag": 156.17988445124575,
+    "rolling resistance": 222.09546907927822,
+    "net climbing": -0.9015299940593322,
+    "kinetic energy at the line": 219.3152011920042
+  },
+  "rolling: optimised profile (N=8)": {
+    "driveline & clutch losses": 48.213346607185144,
+    "aerodynamic drag": 147.0694500857539,
+    "rolling resistance": 220.4592729142299,
+    "net climbing": -1.765738862828548,
+    "kinetic energy at the line": 60.12074611726394
+  },
+  "flat: constant throttle": {
+    "driveline & clutch losses": 69.71238737155835,
+    "aerodynamic drag": 161.0944903655638,
+    "rolling resistance": 222.96856224046823,
+    "net climbing": 0.0,
+    "kinetic energy at the line": 229.57844693338242
+  },
+  "flat: optimised profile (N=16)": {
+    "driveline & clutch losses": 46.41301769172947,
+    "aerodynamic drag": 139.6193171844906,
+    "rolling resistance": 219.79618215821603,
+    "net climbing": 0.0,
+    "kinetic energy at the line": 48.96165585631144
+  }
+}

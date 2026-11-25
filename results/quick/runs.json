@@ -1,0 +1,240 @@
+{
+  "mode": "quick",
+  "budgets": {
+    "1": 15,
+    "2": 40,
+    "4": 80
+  },
+  "versions": {
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "numba": "0.68.1"
+  },
+  "solver_settings": {
+    "section_counts": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "sweep_routes": [
+      "rolling",
+      "flat"
+    ],
+    "outer_initial_shape": 1.0,
+    "outer_perturbation": 0.25,
+    "inner_start_scales": [
+      0.3,
+      0.4
+    ],
+    "inner_xatol": 1e-05,
+    "inner_fatol_s": 0.01,
+    "inner_maxfev": 40,
+    "outer_xatol": 0.001,
+    "outer_fatol_J": 50.0,
+    "outer_restarts": 6,
+    "_source": "brief: nested Nelder-Mead, N+1 outer vertices, two inner start values; numeric settings and restart policy (fresh N+1 simplex at the converged point while energy improves by > outer_fatol_J, within the same evaluation cap) assumed"
+  },
+  "maximum_saving": {
+    "route": "rolling",
+    "n_sections": 4,
+    "saving_percent": 27.026196457187613,
+    "comparison": "best feasible N-section profile vs lowest-energy in-window constant throttle, same vehicle/gear policy/accounting/finish"
+  },
+  "hill_behaviour": {
+    "rolling": {
+      "constant": {
+        "climb_foot_m": 603.504,
+        "steep_entry_m": 804.672,
+        "crest_m": 1005.84,
+        "mean_throttle_on_approach": 0.4367187499999999,
+        "mean_throttle_on_steep_section": 0.4367187499999998,
+        "speed_kmh_at_steep_entry": 53.345970705873334,
+        "builds_speed_into_steep_section": false,
+        "speed_kmh_one_segment_before_foot": 55.59498662190718,
+        "speed_kmh_at_foot": 66.5742274678615,
+        "min_speed_kmh_on_climb": 31.69446448478406,
+        "speed_kmh_100m_before_crest": 43.41787451661837,
+        "speed_kmh_at_crest": 31.632646654571076,
+        "mean_throttle_segment_before_foot": 0.43671874999999977,
+        "mean_throttle_last_100m_of_climb": 0.4367187499999999,
+        "builds_speed_before_hill": true,
+        "sheds_speed_near_top": true
+      },
+      "profile_N4": {
+        "climb_foot_m": 603.504,
+        "steep_entry_m": 804.672,
+        "crest_m": 1005.84,
+        "mean_throttle_on_approach": 0.48957389711766897,
+        "mean_throttle_on_steep_section": 0.022127226196651504,
+        "speed_kmh_at_steep_entry": 69.23552128472839,
+        "builds_speed_into_steep_section": false,
+        "speed_kmh_one_segment_before_foot": 70.20019832514896,
+        "speed_kmh_at_foot": 79.50540037489614,
+        "min_speed_kmh_on_climb": 30.389643844927928,
+        "speed_kmh_100m_before_crest": 52.58773593069275,
+        "speed_kmh_at_crest": 30.26478469176662,
+        "mean_throttle_segment_before_foot": 0.48957389711766897,
+        "mean_throttle_last_100m_of_climb": 0.0221272261966515,
+        "builds_speed_before_hill": true,
+        "sheds_speed_near_top": true
+      }
+    }
+  },
+  "runs": {
+    "rolling/constant": {
+      "feasible": true,
+      "throttle": 0.43671875000000004,
+      "time_error_s": 0.04957280093080385,
+      "sim_calls": 35,
+      "runtime_s": 0.2820920000085607,
+      "inner_message": "Optimization terminated successfully.",
+      "inner_start_simplex": [
+        [
+          0.3
+        ],
+        [
+          0.4
+        ]
+      ]
+    },
+    "rolling/N1": {
+      "n_sections": 1,
+      "feasible": true,
+      "outer_nfev": 15,
+      "outer_nit": 5,
+      "outer_message": "Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))",
+      "outer_legs": [
+        {
+          "leg": 0,
+          "nfev": 15,
+          "best_score": 665448.1158139434,
+          "message": "Maximum number of function evaluations has been exceeded."
+        }
+      ],
+      "outer_max_evals": 15,
+      "budget_limited": true,
+      "outer_start_simplex": [
+        [
+          1.0
+        ],
+        [
+          1.25
+        ]
+      ],
+      "inner_searches": 15,
+      "inner_nfev_total": 525,
+      "inner_unmatched": 0,
+      "inner_messages": {
+        "Optimization terminated successfully.": 15
+      },
+      "sim_calls": 525,
+      "feasible_runs_seen": 90,
+      "runtime_s": 1.1383815999724902
+    },
+    "rolling/N2": {
+      "n_sections": 2,
+      "feasible": true,
+      "outer_nfev": 40,
+      "outer_nit": 13,
+      "outer_message": "Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))",
+      "outer_legs": [
+        {
+          "leg": 0,
+          "nfev": 40,
+          "best_score": 486320.30762790696,
+          "message": "Maximum number of function evaluations has been exceeded."
+        }
+      ],
+      "outer_max_evals": 40,
+      "budget_limited": true,
+      "outer_start_simplex": [
+        [
+          1.0,
+          1.0
+        ],
+        [
+          1.25,
+          1.0
+        ],
+        [
+          1.0,
+          1.25
+        ]
+      ],
+      "inner_searches": 40,
+      "inner_nfev_total": 1511,
+      "inner_unmatched": 0,
+      "inner_messages": {
+        "Optimization terminated successfully.": 39,
+        "Maximum number of function evaluations has been exceeded.": 1
+      },
+      "sim_calls": 1511,
+      "feasible_runs_seen": 601,
+      "runtime_s": 5.344510200025979
+    },
+    "rolling/N4": {
+      "n_sections": 4,
+      "feasible": true,
+      "outer_nfev": 80,
+      "outer_nit": 39,
+      "outer_message": "Maximum number of function evaluations has been exceeded. (after 1 Nelder-Mead leg(s))",
+      "outer_legs": [
+        {
+          "leg": 0,
+          "nfev": 80,
+          "best_score": 484859.09773885715,
+          "message": "Maximum number of function evaluations has been exceeded."
+        }
+      ],
+      "outer_max_evals": 80,
+      "budget_limited": true,
+      "outer_start_simplex": [
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.25,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.25,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.25,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.25
+        ]
+      ],
+      "inner_searches": 80,
+      "inner_nfev_total": 3108,
+      "inner_unmatched": 11,
+      "inner_messages": {
+        "Optimization terminated successfully.": 35,
+        "Maximum number of function evaluations has been exceeded.": 45
+      },
+      "sim_calls": 3108,
+      "feasible_runs_seen": 699,
+      "runtime_s": 10.242701099952683
+    }
+  }
+}

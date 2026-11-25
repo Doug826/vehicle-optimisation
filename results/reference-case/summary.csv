@@ -1,0 +1,13 @@
+route,n_sections,status,time_s,energy_kJ,finish_speed_kmh,shifts,saving_percent,sim_calls,runtime_s,budget_limited,termination
+rolling,constant,finished,119.94706748835826,664.4289788929519,71.44925056639957,8,0.0,35,0.2664714999846183,False,Optimization terminated successfully.
+rolling,1,finished,119.94706748835826,664.4289788929519,71.44925056639957,8,0.0,1400,4.046656299964525,True,Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s))
+rolling,2,finished,120.01807623453185,485.9161703976991,36.77387754451062,5,26.867101551272583,3297,10.898937300022226,False,Optimization terminated successfully. (after 2 Nelder-Mead leg(s))
+rolling,4,finished,120.08001408849374,484.6470051431116,35.89051544038892,9,27.05811749050843,15092,48.13860379997641,False,Optimization terminated successfully. (after 2 Nelder-Mead leg(s))
+rolling,8,finished,120.09928539002591,474.09707686160436,36.688414343008304,5,28.645936296829177,31976,129.74414950003847,False,Optimization terminated successfully. (after 4 Nelder-Mead leg(s))
+rolling,16,finished,120.05414785845628,475.2336518685946,38.36523342681399,7,28.47487587606246,53675,188.82258430001093,False,Optimization terminated successfully. (after 4 Nelder-Mead leg(s))
+flat,constant,finished,120.04965215682405,683.3538869109727,72.93459152561357,3,0.0,34,0.13541049999184906,False,Optimization terminated successfully.
+flat,1,finished,120.04965215682405,683.3538869109727,72.93459152561357,3,0.0,1360,6.54011729999911,True,Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s))
+flat,2,finished,120.09355041584531,517.7757920610981,49.13352381483329,4,24.230211903579356,4961,22.42749830003595,False,Optimization terminated successfully. (after 2 Nelder-Mead leg(s))
+flat,4,finished,120.097691942893,482.61973148152964,39.865633537375395,5,29.374846514276832,11765,53.68975049996516,False,Optimization terminated successfully. (after 3 Nelder-Mead leg(s))
+flat,8,finished,120.09921007049456,548.0480345489887,54.2188858430731,4,19.800260882925468,16902,74.25702320004348,False,Optimization terminated successfully. (after 2 Nelder-Mead leg(s))
+flat,16,finished,120.09537748583537,454.7901728907475,32.72479752279449,6,33.447342350450775,155514,536.8663387999986,False,Optimization terminated successfully. (after 7 Nelder-Mead leg(s))
