@@ -27,25 +27,52 @@
       "rolling",
       "flat"
     ],
-    "outer_initial_shape": 1.0,
-    "outer_perturbation": 0.25,
-    "inner_start_scales": [
+    "method": "ratio",
+    "throttle_min": 0.1,
+    "throttle_max": 1.0,
+    "inner_start_throttle": 0.5,
+    "inner_xatol": 0.001,
+    "retry_inner_in_search": true,
+    "inner_retry_starts": [
+      0.4,
       0.3,
-      0.4
+      0.6,
+      0.2,
+      0.7,
+      0.8,
+      0.9
     ],
-    "inner_xatol": 1e-05,
-    "inner_fatol_s": 0.01,
-    "inner_maxfev": 40,
-    "outer_xatol": 0.001,
-    "outer_fatol_J": 50.0,
-    "outer_restarts": 6,
-    "_source": "brief: nested Nelder-Mead, N+1 outer vertices, two inner start values; numeric settings and restart policy (fresh N+1 simplex at the converged point while energy improves by > outer_fatol_J, within the same evaluation cap) assumed"
+    "outer_perturbation": 1.0,
+    "ratio_clip": [
+      0.0,
+      2.0
+    ],
+    "simplex_seed": 2024,
+    "outer_xatol": 0.01,
+    "outer_fatol_J": 0.01,
+    "outer_maxiter": 500,
+    "_source": "Doug's account of the original optimiser: outer Nelder-Mead over per-section throttle ratios (relative to section 1, start all 1.0); starting simplex of one random perturbation in [-1, 1] per section, clipped to [0, 2]; xatol 1e-2, fatol 1e-2, maxiter 500; inner Nelder-Mead over the first section's throttle, xatol 1e-3, scipy default simplex; throttles strictly inside (0.1, 1) and a missed time window both score a flat 1e10; reported run = converged ratios put back through the time match. Assumed: inner start throttle 0.5, simplex_seed (the original draw was unseeded), evaluation budgets, and inner_retry_starts with retry_inner_in_search (when an inner search stops at a gear-change jump without matching the time it is retried from these starts; set false for a single inner search per shape, which on the flat course finds no run at 1, 2 or 4 sections; the constant baseline always retries).",
+    "shape_method": {
+      "outer_initial_shape": 1.0,
+      "outer_perturbation": 0.25,
+      "inner_start_scales": [
+        0.3,
+        0.4
+      ],
+      "inner_xatol": 1e-05,
+      "inner_fatol_s": 0.01,
+      "inner_maxfev": 40,
+      "outer_xatol": 0.001,
+      "outer_fatol_J": 50.0,
+      "outer_restarts": 6,
+      "_source": "first reconstruction, used when method = 'shape': max-normalised shape, graded penalties, restarts, zero-throttle coasting allowed"
+    }
   },
   "maximum_saving": {
     "route": "flat",
-    "n_sections": 16,
-    "saving_percent": 33.447342350450775,
-    "comparison": "best feasible N-section profile vs lowest-energy in-window constant throttle, same vehicle/gear policy/accounting/finish"
+    "n_sections": 4,
+    "saving_percent": 32.22268083625753,
+    "comparison": "N-section profile vs time-matched constant throttle from the same inner search, same vehicle/gear policy/accounting/finish"
   },
   "hill_behaviour": {
     "rolling": {
@@ -53,122 +80,96 @@
         "climb_foot_m": 603.504,
         "steep_entry_m": 804.672,
         "crest_m": 1005.84,
-        "mean_throttle_on_approach": 0.4367187499999999,
-        "mean_throttle_on_steep_section": 0.4367187499999998,
-        "speed_kmh_at_steep_entry": 53.345970705873334,
+        "mean_throttle_on_approach": 0.4371009826660155,
+        "mean_throttle_on_steep_section": 0.4371009826660157,
+        "speed_kmh_at_steep_entry": 53.296980695514314,
         "builds_speed_into_steep_section": false,
-        "speed_kmh_one_segment_before_foot": 55.59498662190718,
-        "speed_kmh_at_foot": 66.5742274678615,
-        "min_speed_kmh_on_climb": 31.69446448478406,
-        "speed_kmh_100m_before_crest": 43.41787451661837,
-        "speed_kmh_at_crest": 31.632646654571076,
-        "mean_throttle_segment_before_foot": 0.43671874999999977,
-        "mean_throttle_last_100m_of_climb": 0.4367187499999999,
+        "speed_kmh_one_segment_before_foot": 55.639555933275524,
+        "speed_kmh_at_foot": 66.61866637346067,
+        "min_speed_kmh_on_climb": 31.65574695733611,
+        "speed_kmh_100m_before_crest": 43.349064755298066,
+        "speed_kmh_at_crest": 31.604952168354995,
+        "mean_throttle_segment_before_foot": 0.4371009826660156,
+        "mean_throttle_last_100m_of_climb": 0.4371009826660156,
         "builds_speed_before_hill": true,
         "sheds_speed_near_top": true
       },
-      "profile_N8": {
+      "profile_N2": {
         "climb_foot_m": 603.504,
         "steep_entry_m": 804.672,
         "crest_m": 1005.84,
-        "mean_throttle_on_approach": 0.12233436912534053,
-        "mean_throttle_on_steep_section": 0.38686225913156314,
-        "speed_kmh_at_steep_entry": 57.39363812468076,
+        "mean_throttle_on_approach": 0.5730303955078125,
+        "mean_throttle_on_steep_section": 0.10094162437682584,
+        "speed_kmh_at_steep_entry": 66.90482993687087,
         "builds_speed_into_steep_section": false,
-        "speed_kmh_one_segment_before_foot": 62.654790764030274,
-        "speed_kmh_at_foot": 78.52043593669075,
-        "min_speed_kmh_on_climb": 33.83143926061079,
-        "speed_kmh_100m_before_crest": 46.98200447167612,
-        "speed_kmh_at_crest": 33.67878849539326,
-        "mean_throttle_segment_before_foot": 0.6943512364065594,
-        "mean_throttle_last_100m_of_climb": 0.3868622591315632,
+        "speed_kmh_one_segment_before_foot": 62.04002486485295,
+        "speed_kmh_at_foot": 75.06156335544281,
+        "min_speed_kmh_on_climb": 31.48411650943417,
+        "speed_kmh_100m_before_crest": 51.48694339572604,
+        "speed_kmh_at_crest": 31.274766764794343,
+        "mean_throttle_segment_before_foot": 0.5730303955078124,
+        "mean_throttle_last_100m_of_climb": 0.10094162437682588,
         "builds_speed_before_hill": true,
         "sheds_speed_near_top": true
       }
     },
     "flat": {
       "constant": null,
-      "profile_N16": null
+      "profile_N4": null
     }
   },
   "runs": {
     "rolling/constant": {
       "feasible": true,
-      "throttle": 0.43671875000000004,
-      "time_error_s": 0.04957280093080385,
-      "sim_calls": 35,
-      "runtime_s": 0.2664714999846183,
+      "throttle": 0.43710098266601555,
+      "time_error_s": 0.04859498117308192,
+      "sim_calls": 50,
+      "runtime_s": 0.30697789997793734,
       "inner_message": "Optimization terminated successfully.",
-      "inner_start_simplex": [
-        [
-          0.3
-        ],
-        [
-          0.4
-        ]
-      ]
+      "inner_start_throttle": 0.5
     },
     "rolling/N1": {
       "n_sections": 1,
       "feasible": true,
-      "outer_nfev": 40,
-      "outer_nit": 14,
-      "outer_message": "Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 26,
-          "best_score": 665448.1158139434,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 14,
-          "best_score": 665448.1158139434,
-          "message": "Maximum number of function evaluations has been exceeded."
-        }
+      "best_ratios": [
+        1.0
       ],
+      "outer_nfev": 23,
+      "outer_nit": 8,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 40,
-      "budget_limited": true,
+      "outer_maxiter": 500,
+      "budget_limited": false,
       "outer_start_simplex": [
         [
           1.0
         ],
         [
-          1.25
+          1.9889156103355217
         ]
       ],
-      "inner_searches": 40,
-      "inner_nfev_total": 1400,
+      "inner_searches": 24,
+      "inner_nfev_total": 1176,
       "inner_unmatched": 0,
       "inner_messages": {
-        "Optimization terminated successfully.": 40
+        "Optimization terminated successfully.": 24
       },
-      "sim_calls": 1400,
-      "feasible_runs_seen": 240,
-      "runtime_s": 4.046656299964525
+      "sim_calls": 1223,
+      "feasible_runs_seen": 527,
+      "runtime_s": 3.237376100034453
     },
     "rolling/N2": {
       "n_sections": 2,
       "feasible": true,
-      "outer_nfev": 87,
-      "outer_nit": 25,
-      "outer_message": "Optimization terminated successfully. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 52,
-          "best_score": 486320.30762790696,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 35,
-          "best_score": 486320.30762790696,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        12.508613128301704,
+        2.2034428501006955
       ],
+      "outer_nfev": 94,
+      "outer_nit": 48,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 200,
+      "outer_maxiter": 500,
       "budget_limited": false,
       "outer_start_simplex": [
         [
@@ -176,46 +177,38 @@
           1.0
         ],
         [
-          1.25,
+          0.35786962735087235,
           1.0
         ],
         [
           1.0,
-          1.25
+          1.279826331430309
         ]
       ],
-      "inner_searches": 87,
-      "inner_nfev_total": 3297,
-      "inner_unmatched": 0,
+      "inner_searches": 410,
+      "inner_nfev_total": 11573,
+      "inner_unmatched": 324,
       "inner_messages": {
-        "Optimization terminated successfully.": 86,
-        "Maximum number of function evaluations has been exceeded.": 1
+        "Optimization terminated successfully.": 410
       },
-      "sim_calls": 3297,
-      "feasible_runs_seen": 1353,
-      "runtime_s": 10.898937300022226
+      "sim_calls": 6668,
+      "feasible_runs_seen": 1583,
+      "runtime_s": 21.41985039995052
     },
     "rolling/N4": {
       "n_sections": 4,
       "feasible": true,
-      "outer_nfev": 380,
-      "outer_nit": 181,
-      "outer_message": "Optimization terminated successfully. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 145,
-          "best_score": 484720.627195957,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 235,
-          "best_score": 484704.14469793206,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        1.2075693265792937,
+        1.3501830163556119,
+        0.24421246017789056,
+        0.22440314234073622
       ],
+      "outer_nfev": 300,
+      "outer_nit": 149,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 600,
+      "outer_maxiter": 500,
       "budget_limited": false,
       "outer_start_simplex": [
         [
@@ -225,75 +218,59 @@
           1.0
         ],
         [
-          1.25,
+          0.7735046304601325,
           1.0,
           1.0,
           1.0
         ],
         [
           1.0,
-          1.25,
+          1.185113447884537,
           1.0,
           1.0
         ],
         [
           1.0,
           1.0,
-          1.25,
+          1.4746605461625775,
           1.0
         ],
         [
           1.0,
           1.0,
           1.0,
-          1.25
+          1.969852456513381
         ]
       ],
-      "inner_searches": 380,
-      "inner_nfev_total": 15092,
-      "inner_unmatched": 83,
+      "inner_searches": 1224,
+      "inner_nfev_total": 31871,
+      "inner_unmatched": 952,
       "inner_messages": {
-        "Optimization terminated successfully.": 46,
-        "Maximum number of function evaluations has been exceeded.": 334
+        "Optimization terminated successfully.": 1224
       },
-      "sim_calls": 15092,
-      "feasible_runs_seen": 1406,
-      "runtime_s": 48.13860379997641
+      "sim_calls": 15486,
+      "feasible_runs_seen": 4527,
+      "runtime_s": 49.69754630001262
     },
     "rolling/N8": {
       "n_sections": 8,
       "feasible": true,
-      "outer_nfev": 810,
-      "outer_nit": 303,
-      "outer_message": "Optimization terminated successfully. (after 4 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 300,
-          "best_score": 475240.2441996085,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 162,
-          "best_score": 474862.5524711464,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 2,
-          "nfev": 203,
-          "best_score": 474484.3794589981,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 3,
-          "nfev": 145,
-          "best_score": 474449.2156576656,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        1.044093112041308,
+        0.9983779429415609,
+        1.0240088446421542,
+        0.9325424879112478,
+        0.5075874057564373,
+        0.3825030312230948,
+        0.1956243905731817,
+        0.19948330749621762
       ],
+      "outer_nfev": 916,
+      "outer_nit": 500,
+      "outer_message": "Maximum number of iterations has been exceeded.",
       "outer_max_evals": 2000,
-      "budget_limited": false,
+      "outer_maxiter": 500,
+      "budget_limited": true,
       "outer_start_simplex": [
         [
           1.0,
@@ -306,7 +283,7 @@
           1.0
         ],
         [
-          1.25,
+          1.0334698378018072,
           1.0,
           1.0,
           1.0,
@@ -317,7 +294,7 @@
         ],
         [
           1.0,
-          1.25,
+          1.224528535258272,
           1.0,
           1.0,
           1.0,
@@ -328,7 +305,7 @@
         [
           1.0,
           1.0,
-          1.25,
+          0.8299612949175583,
           1.0,
           1.0,
           1.0,
@@ -339,7 +316,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9840330568368314,
           1.0,
           1.0,
           1.0,
@@ -350,7 +327,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.25433125587211003,
           1.0,
           1.0,
           1.0
@@ -361,7 +338,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.48330704567624894,
           1.0,
           1.0
         ],
@@ -372,7 +349,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.26263062827088546,
           1.0
         ],
         [
@@ -383,54 +360,46 @@
           1.0,
           1.0,
           1.0,
-          1.25
+          1.3577342329388307
         ]
       ],
-      "inner_searches": 810,
-      "inner_nfev_total": 31976,
-      "inner_unmatched": 45,
+      "inner_searches": 3630,
+      "inner_nfev_total": 95881,
+      "inner_unmatched": 2761,
       "inner_messages": {
-        "Optimization terminated successfully.": 189,
-        "Maximum number of function evaluations has been exceeded.": 621
+        "Optimization terminated successfully.": 3630
       },
-      "sim_calls": 31976,
-      "feasible_runs_seen": 6447,
-      "runtime_s": 129.74414950003847
+      "sim_calls": 51051,
+      "feasible_runs_seen": 24337,
+      "runtime_s": 163.38323409995064
     },
     "rolling/N16": {
       "n_sections": 16,
       "feasible": true,
-      "outer_nfev": 1366,
-      "outer_nit": 527,
-      "outer_message": "Optimization terminated successfully. (after 4 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 511,
-          "best_score": 479908.6057382226,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 218,
-          "best_score": 479851.20663913205,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 2,
-          "nfev": 357,
-          "best_score": 475362.5098700405,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 3,
-          "nfev": 280,
-          "best_score": 475349.5946439093,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        2.9597609208725837,
+        1.7388153768322598,
+        4.973468383378957,
+        1.9674821900689363,
+        2.058725406190881,
+        0.9178468472636941,
+        1.9052045484775313,
+        4.9551373780617585,
+        1.0287902295739324,
+        0.5031120057033294,
+        0.9883592117347126,
+        0.9785831519769759,
+        0.5750293616184481,
+        0.9918057148526103,
+        0.9464692147262973,
+        0.5540181083141509
       ],
+      "outer_nfev": 874,
+      "outer_nit": 500,
+      "outer_message": "Maximum number of iterations has been exceeded.",
       "outer_max_evals": 5000,
-      "budget_limited": false,
+      "outer_maxiter": 500,
+      "budget_limited": true,
       "outer_start_simplex": [
         [
           1.0,
@@ -451,7 +420,7 @@
           1.0
         ],
         [
-          1.25,
+          1.375963727767805,
           1.0,
           1.0,
           1.0,
@@ -470,7 +439,7 @@
         ],
         [
           1.0,
-          1.25,
+          1.3293229369155897,
           1.0,
           1.0,
           1.0,
@@ -489,7 +458,7 @@
         [
           1.0,
           1.0,
-          1.25,
+          0.08851036149466895,
           1.0,
           1.0,
           1.0,
@@ -508,7 +477,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.4621869931488378,
           1.0,
           1.0,
           1.0,
@@ -527,7 +496,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9702379019173892,
           1.0,
           1.0,
           1.0,
@@ -546,7 +515,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.1384239326059158,
           1.0,
           1.0,
           1.0,
@@ -565,7 +534,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.3027536860316953,
           1.0,
           1.0,
           1.0,
@@ -584,7 +553,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.8333881981586402,
           1.0,
           1.0,
           1.0,
@@ -603,7 +572,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.995743892478796,
           1.0,
           1.0,
           1.0,
@@ -622,7 +591,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9216662667813103,
           1.0,
           1.0,
           1.0,
@@ -641,7 +610,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.9781065777182456,
           1.0,
           1.0,
           1.0,
@@ -660,7 +629,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.0148786813290118,
           1.0,
           1.0,
           1.0,
@@ -679,7 +648,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.6990530853806829,
           1.0,
           1.0,
           1.0
@@ -698,7 +667,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.9655230065833467,
           1.0,
           1.0
         ],
@@ -717,7 +686,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.0560755040930359,
           1.0
         ],
         [
@@ -736,97 +705,70 @@
           1.0,
           1.0,
           1.0,
-          1.25
+          1.0958775209153317
         ]
       ],
-      "inner_searches": 1366,
-      "inner_nfev_total": 53675,
-      "inner_unmatched": 85,
+      "inner_searches": 3471,
+      "inner_nfev_total": 83438,
+      "inner_unmatched": 2657,
       "inner_messages": {
-        "Optimization terminated successfully.": 427,
-        "Maximum number of function evaluations has been exceeded.": 939
+        "Optimization terminated successfully.": 3471
       },
-      "sim_calls": 53675,
-      "feasible_runs_seen": 10972,
-      "runtime_s": 188.82258430001093
+      "sim_calls": 34700,
+      "feasible_runs_seen": 14744,
+      "runtime_s": 113.51459789997898
     },
     "flat/constant": {
       "feasible": true,
-      "throttle": 0.35244140625,
-      "time_error_s": 0.00019149924257533257,
-      "sim_calls": 34,
-      "runtime_s": 0.13541049999184906,
+      "throttle": 0.35269348144531265,
+      "time_error_s": 0.00013315316509476816,
+      "sim_calls": 84,
+      "runtime_s": 0.2661697999574244,
       "inner_message": "Optimization terminated successfully.",
-      "inner_start_simplex": [
-        [
-          0.3
-        ],
-        [
-          0.4
-        ]
-      ]
+      "inner_start_throttle": 0.4
     },
     "flat/N1": {
       "n_sections": 1,
       "feasible": true,
-      "outer_nfev": 40,
-      "outer_nit": 14,
-      "outer_message": "Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 26,
-          "best_score": 683712.3852149239,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 14,
-          "best_score": 683712.3852149239,
-          "message": "Maximum number of function evaluations has been exceeded."
-        }
+      "best_ratios": [
+        1.0
       ],
+      "outer_nfev": 23,
+      "outer_nit": 8,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 40,
-      "budget_limited": true,
+      "outer_maxiter": 500,
+      "budget_limited": false,
       "outer_start_simplex": [
         [
           1.0
         ],
         [
-          1.25
+          1.9889156103355217
         ]
       ],
-      "inner_searches": 40,
-      "inner_nfev_total": 1360,
-      "inner_unmatched": 0,
+      "inner_searches": 48,
+      "inner_nfev_total": 1968,
+      "inner_unmatched": 24,
       "inner_messages": {
-        "Optimization terminated successfully.": 40
+        "Optimization terminated successfully.": 48
       },
-      "sim_calls": 1360,
-      "feasible_runs_seen": 640,
-      "runtime_s": 6.54011729999911
+      "sim_calls": 2039,
+      "feasible_runs_seen": 575,
+      "runtime_s": 6.784376100054942
     },
     "flat/N2": {
       "n_sections": 2,
       "feasible": true,
-      "outer_nfev": 143,
-      "outer_nit": 67,
-      "outer_message": "Optimization terminated successfully. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 63,
-          "best_score": 518726.67668803973,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 80,
-          "best_score": 518725.8108422004,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        11.025755955935566,
+        1.9741490339823866
       ],
+      "outer_nfev": 98,
+      "outer_nit": 47,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 200,
+      "outer_maxiter": 500,
       "budget_limited": false,
       "outer_start_simplex": [
         [
@@ -834,51 +776,38 @@
           1.0
         ],
         [
-          1.25,
+          0.35786962735087235,
           1.0
         ],
         [
           1.0,
-          1.25
+          1.279826331430309
         ]
       ],
-      "inner_searches": 143,
-      "inner_nfev_total": 4961,
-      "inner_unmatched": 0,
+      "inner_searches": 416,
+      "inner_nfev_total": 11462,
+      "inner_unmatched": 332,
       "inner_messages": {
-        "Optimization terminated successfully.": 143
+        "Optimization terminated successfully.": 416
       },
-      "sim_calls": 4961,
-      "feasible_runs_seen": 2262,
-      "runtime_s": 22.42749830003595
+      "sim_calls": 5618,
+      "feasible_runs_seen": 1829,
+      "runtime_s": 17.906414300086908
     },
     "flat/N4": {
       "n_sections": 4,
       "feasible": true,
-      "outer_nfev": 336,
-      "outer_nit": 136,
-      "outer_message": "Optimization terminated successfully. (after 3 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 145,
-          "best_score": 483524.935877407,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 110,
-          "best_score": 483028.65735833364,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 2,
-          "nfev": 81,
-          "best_score": 483028.65735833364,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        0.30430285975050614,
+        0.03692210505963266,
+        0.08710597891945474,
+        0.03644346626215292
       ],
+      "outer_nfev": 383,
+      "outer_nit": 197,
+      "outer_message": "Optimization terminated successfully.",
       "outer_max_evals": 600,
+      "outer_maxiter": 500,
       "budget_limited": false,
       "outer_start_simplex": [
         [
@@ -888,63 +817,59 @@
           1.0
         ],
         [
-          1.25,
+          0.7735046304601325,
           1.0,
           1.0,
           1.0
         ],
         [
           1.0,
-          1.25,
+          1.185113447884537,
           1.0,
           1.0
         ],
         [
           1.0,
           1.0,
-          1.25,
+          1.4746605461625775,
           1.0
         ],
         [
           1.0,
           1.0,
           1.0,
-          1.25
+          1.969852456513381
         ]
       ],
-      "inner_searches": 336,
-      "inner_nfev_total": 11765,
-      "inner_unmatched": 1,
+      "inner_searches": 2249,
+      "inner_nfev_total": 51225,
+      "inner_unmatched": 1942,
       "inner_messages": {
-        "Optimization terminated successfully.": 331,
-        "Maximum number of function evaluations has been exceeded.": 5
+        "Optimization terminated successfully.": 2249
       },
-      "sim_calls": 11765,
-      "feasible_runs_seen": 5253,
-      "runtime_s": 53.68975049996516
+      "sim_calls": 20127,
+      "feasible_runs_seen": 6768,
+      "runtime_s": 64.86194740002975
     },
     "flat/N8": {
       "n_sections": 8,
       "feasible": true,
-      "outer_nfev": 453,
-      "outer_nit": 185,
-      "outer_message": "Optimization terminated successfully. (after 2 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 300,
-          "best_score": 548073.1030507619,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 153,
-          "best_score": 548048.0345489887,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        1.107266861950813,
+        0.9904919280897451,
+        0.9450933083017321,
+        0.16165135931881192,
+        0.3898298997768692,
+        0.23874065293883262,
+        0.16238964892734287,
+        0.16139675818295574
       ],
+      "outer_nfev": 907,
+      "outer_nit": 500,
+      "outer_message": "Maximum number of iterations has been exceeded.",
       "outer_max_evals": 2000,
-      "budget_limited": false,
+      "outer_maxiter": 500,
+      "budget_limited": true,
       "outer_start_simplex": [
         [
           1.0,
@@ -957,7 +882,7 @@
           1.0
         ],
         [
-          1.25,
+          1.0334698378018072,
           1.0,
           1.0,
           1.0,
@@ -968,7 +893,7 @@
         ],
         [
           1.0,
-          1.25,
+          1.224528535258272,
           1.0,
           1.0,
           1.0,
@@ -979,7 +904,7 @@
         [
           1.0,
           1.0,
-          1.25,
+          0.8299612949175583,
           1.0,
           1.0,
           1.0,
@@ -990,7 +915,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9840330568368314,
           1.0,
           1.0,
           1.0,
@@ -1001,7 +926,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.25433125587211003,
           1.0,
           1.0,
           1.0
@@ -1012,7 +937,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.48330704567624894,
           1.0,
           1.0
         ],
@@ -1023,7 +948,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.26263062827088546,
           1.0
         ],
         [
@@ -1034,72 +959,46 @@
           1.0,
           1.0,
           1.0,
-          1.25
+          1.3577342329388307
         ]
       ],
-      "inner_searches": 453,
-      "inner_nfev_total": 16902,
-      "inner_unmatched": 28,
+      "inner_searches": 4923,
+      "inner_nfev_total": 104830,
+      "inner_unmatched": 4117,
       "inner_messages": {
-        "Optimization terminated successfully.": 258,
-        "Maximum number of function evaluations has been exceeded.": 195
+        "Optimization terminated successfully.": 4923
       },
-      "sim_calls": 16902,
-      "feasible_runs_seen": 4420,
-      "runtime_s": 74.25702320004348
+      "sim_calls": 34573,
+      "feasible_runs_seen": 15950,
+      "runtime_s": 109.64587150001898
     },
     "flat/N16": {
       "n_sections": 16,
       "feasible": true,
-      "outer_nfev": 4065,
-      "outer_nit": 1916,
-      "outer_message": "Optimization terminated successfully. (after 7 Nelder-Mead leg(s))",
-      "outer_legs": [
-        {
-          "leg": 0,
-          "nfev": 616,
-          "best_score": 545624.6377368321,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 1,
-          "nfev": 526,
-          "best_score": 516960.9682443415,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 2,
-          "nfev": 368,
-          "best_score": 506129.2917056228,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 3,
-          "nfev": 838,
-          "best_score": 484231.5977582922,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 4,
-          "nfev": 869,
-          "best_score": 457147.46035468887,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 5,
-          "nfev": 314,
-          "best_score": 455205.3844945156,
-          "message": "Optimization terminated successfully."
-        },
-        {
-          "leg": 6,
-          "nfev": 534,
-          "best_score": 455031.70737548696,
-          "message": "Optimization terminated successfully."
-        }
+      "best_ratios": [
+        5.081170514509564,
+        1.0900029648975758,
+        6.125935918048544,
+        2.4393874258077837,
+        5.553320311603553,
+        1.483301487748709,
+        2.441627538652213,
+        0.6510737770200272,
+        1.058869286241587,
+        0.8616094752356611,
+        1.1353279196788186,
+        0.900087830763207,
+        3.0453226358425347,
+        0.7978132410863978,
+        1.5980468596739437,
+        0.6825355245775149
       ],
+      "outer_nfev": 883,
+      "outer_nit": 500,
+      "outer_message": "Maximum number of iterations has been exceeded.",
       "outer_max_evals": 5000,
-      "budget_limited": false,
+      "outer_maxiter": 500,
+      "budget_limited": true,
       "outer_start_simplex": [
         [
           1.0,
@@ -1120,7 +1019,7 @@
           1.0
         ],
         [
-          1.25,
+          1.375963727767805,
           1.0,
           1.0,
           1.0,
@@ -1139,7 +1038,7 @@
         ],
         [
           1.0,
-          1.25,
+          1.3293229369155897,
           1.0,
           1.0,
           1.0,
@@ -1158,7 +1057,7 @@
         [
           1.0,
           1.0,
-          1.25,
+          0.08851036149466895,
           1.0,
           1.0,
           1.0,
@@ -1177,7 +1076,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.4621869931488378,
           1.0,
           1.0,
           1.0,
@@ -1196,7 +1095,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9702379019173892,
           1.0,
           1.0,
           1.0,
@@ -1215,7 +1114,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.1384239326059158,
           1.0,
           1.0,
           1.0,
@@ -1234,7 +1133,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.3027536860316953,
           1.0,
           1.0,
           1.0,
@@ -1253,7 +1152,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.8333881981586402,
           1.0,
           1.0,
           1.0,
@@ -1272,7 +1171,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.995743892478796,
           1.0,
           1.0,
           1.0,
@@ -1291,7 +1190,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.9216662667813103,
           1.0,
           1.0,
           1.0,
@@ -1310,7 +1209,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.9781065777182456,
           1.0,
           1.0,
           1.0,
@@ -1329,7 +1228,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.0148786813290118,
           1.0,
           1.0,
           1.0,
@@ -1348,7 +1247,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.6990530853806829,
           1.0,
           1.0,
           1.0
@@ -1367,7 +1266,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          0.9655230065833467,
           1.0,
           1.0
         ],
@@ -1386,7 +1285,7 @@
           1.0,
           1.0,
           1.0,
-          1.25,
+          1.0560755040930359,
           1.0
         ],
         [
@@ -1405,19 +1304,18 @@
           1.0,
           1.0,
           1.0,
-          1.25
+          1.0958775209153317
         ]
       ],
-      "inner_searches": 4065,
-      "inner_nfev_total": 155514,
-      "inner_unmatched": 249,
+      "inner_searches": 4678,
+      "inner_nfev_total": 102873,
+      "inner_unmatched": 3911,
       "inner_messages": {
-        "Optimization terminated successfully.": 2184,
-        "Maximum number of function evaluations has been exceeded.": 1881
+        "Optimization terminated successfully.": 4678
       },
-      "sim_calls": 155514,
-      "feasible_runs_seen": 51200,
-      "runtime_s": 536.8663387999986
+      "sim_calls": 36147,
+      "feasible_runs_seen": 19120,
+      "runtime_s": 122.04800690000411
     }
   }
 }

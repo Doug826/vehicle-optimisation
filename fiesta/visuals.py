@@ -250,6 +250,9 @@ def throttle_profiles(all_routes, path: Path):
             ax = axs[i, j]
             if route == "rolling":
                 _hill_marks(ax, case)
+            if f"{route}/N{n}" not in rd["vectors"]:
+                ax.set_title(f"{route}, N={n}: no run found", fontsize=9)
+                continue
             q = np.asarray(rd["vectors"][f"{route}/N{n}"])
             edges = np.linspace(0, case.length, n + 1)
             ax.stairs(q, edges, color=ORANGE, lw=1.6, baseline=None)
@@ -313,7 +316,7 @@ def energy_vs_time(all_routes, cfg, path: Path):
 def savings_by_n(all_routes, path: Path):
     fig, ax = plt.subplots(figsize=(8, 4))
     for (route, rd), col, mk in zip(all_routes.items(), (BLUE, AQUA), ("o", "s")):
-        rows = [r for r in rd["rows"] if r["n_sections"] != "constant"]
+        rows = [r for r in rd["rows"] if r["n_sections"] != "constant" and r["saving_percent"]]
         n = [int(r["n_sections"]) for r in rows]
         s = [float(r["saving_percent"]) for r in rows]
         ax.plot(n, s, color=col, marker=mk, ms=7, label=route)

@@ -1,14 +1,14 @@
 | route | n_sections | status | time_s | energy_kJ | finish_speed_kmh | shifts | saving_percent | sim_calls | runtime_s | budget_limited | termination |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| rolling | constant | finished | 119.947 | 664.429 | 71.449 | 8 | 0.000 | 35 | 0.266 | False | Optimization terminated successfully. |
-| rolling | 1 | finished | 119.947 | 664.429 | 71.449 | 8 | 0.000 | 1400 | 4.047 | True | Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s)) |
-| rolling | 2 | finished | 120.018 | 485.916 | 36.774 | 5 | 26.867 | 3297 | 10.899 | False | Optimization terminated successfully. (after 2 Nelder-Mead leg(s)) |
-| rolling | 4 | finished | 120.080 | 484.647 | 35.891 | 9 | 27.058 | 15092 | 48.139 | False | Optimization terminated successfully. (after 2 Nelder-Mead leg(s)) |
-| rolling | 8 | finished | 120.099 | 474.097 | 36.688 | 5 | 28.646 | 31976 | 129.744 | False | Optimization terminated successfully. (after 4 Nelder-Mead leg(s)) |
-| rolling | 16 | finished | 120.054 | 475.234 | 38.365 | 7 | 28.475 | 53675 | 188.823 | False | Optimization terminated successfully. (after 4 Nelder-Mead leg(s)) |
-| flat | constant | finished | 120.050 | 683.354 | 72.935 | 3 | 0.000 | 34 | 0.135 | False | Optimization terminated successfully. |
-| flat | 1 | finished | 120.050 | 683.354 | 72.935 | 3 | 0.000 | 1360 | 6.540 | True | Maximum number of function evaluations has been exceeded. (after 2 Nelder-Mead leg(s)) |
-| flat | 2 | finished | 120.094 | 517.776 | 49.134 | 4 | 24.230 | 4961 | 22.427 | False | Optimization terminated successfully. (after 2 Nelder-Mead leg(s)) |
-| flat | 4 | finished | 120.098 | 482.620 | 39.866 | 5 | 29.375 | 11765 | 53.690 | False | Optimization terminated successfully. (after 3 Nelder-Mead leg(s)) |
-| flat | 8 | finished | 120.099 | 548.048 | 54.219 | 4 | 19.800 | 16902 | 74.257 | False | Optimization terminated successfully. (after 2 Nelder-Mead leg(s)) |
-| flat | 16 | finished | 120.095 | 454.790 | 32.725 | 6 | 33.447 | 155514 | 536.866 | False | Optimization terminated successfully. (after 7 Nelder-Mead leg(s)) |
+| rolling | constant | finished | 119.951 | 665.441 | 71.449 | 8 | 0.000 | 50 | 0.307 | False | Optimization terminated successfully. |
+| rolling | 1 | finished | 119.951 | 665.441 | 71.449 | 8 | 0.000 | 1223 | 3.237 | False | Optimization terminated successfully. |
+| rolling | 2 | finished | 119.971 | 512.771 | 45.318 | 8 | 22.943 | 6668 | 21.420 | False | Optimization terminated successfully. |
+| rolling | 4 | finished | 120.085 | 514.535 | 45.938 | 8 | 22.678 | 15486 | 49.698 | False | Optimization terminated successfully. |
+| rolling | 8 | finished | 119.962 | 521.488 | 48.340 | 8 | 21.633 | 51051 | 163.383 | True | Maximum number of iterations has been exceeded. |
+| rolling | 16 | finished | 120.052 | 530.281 | 50.323 | 8 | 20.311 | 34700 | 113.515 | True | Maximum number of iterations has been exceeded. |
+| flat | constant | finished | 120.000 | 683.875 | 72.981 | 3 | 0.000 | 84 | 0.266 | False | Optimization terminated successfully. |
+| flat | 1 | finished | 120.000 | 683.875 | 72.981 | 3 | 0.000 | 2039 | 6.784 | False | Optimization terminated successfully. |
+| flat | 2 | finished | 120.001 | 480.039 | 39.134 | 5 | 29.806 | 5618 | 17.906 | False | Optimization terminated successfully. |
+| flat | 4 | finished | 120.082 | 463.512 | 36.325 | 5 | 32.223 | 20127 | 64.862 | False | Optimization terminated successfully. |
+| flat | 8 | finished | 120.024 | 468.565 | 37.275 | 5 | 31.484 | 34573 | 109.646 | True | Maximum number of iterations has been exceeded. |
+| flat | 16 | finished | 120.064 | 480.508 | 42.117 | 4 | 29.737 | 36147 | 122.048 | True | Maximum number of iterations has been exceeded. |

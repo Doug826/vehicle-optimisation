@@ -1,30 +1,30 @@
 {
   "rolling: constant throttle": {
-    "driveline & clutch losses": 67.73995416448312,
-    "aerodynamic drag": 156.17988445124575,
-    "rolling resistance": 222.09546907927822,
-    "net climbing": -0.9015299940593322,
-    "kinetic energy at the line": 219.3152011920042
+    "driveline & clutch losses": 67.84001516490511,
+    "aerodynamic drag": 156.1429950330818,
+    "rolling resistance": 222.0889170113732,
+    "net climbing": 0.04569484027568251,
+    "kinetic energy at the line": 219.32300602280355
   },
-  "rolling: optimised profile (N=8)": {
-    "driveline & clutch losses": 48.213346607185144,
-    "aerodynamic drag": 147.0694500857539,
-    "rolling resistance": 220.4592729142299,
-    "net climbing": -1.765738862828548,
-    "kinetic energy at the line": 60.12074611726394
+  "rolling: optimised profile (N=2)": {
+    "driveline & clutch losses": 52.4005742000445,
+    "aerodynamic drag": 150.84848664369417,
+    "rolling resistance": 221.16782167215405,
+    "net climbing": -1.4941591088368513,
+    "kinetic energy at the line": 89.84806380427969
   },
   "flat: constant throttle": {
-    "driveline & clutch losses": 69.71238737155835,
-    "aerodynamic drag": 161.0944903655638,
-    "rolling resistance": 222.96856224046823,
+    "driveline & clutch losses": 69.76328915106191,
+    "aerodynamic drag": 161.24849352028681,
+    "rolling resistance": 222.99391360928144,
     "net climbing": 0.0,
-    "kinetic energy at the line": 229.57844693338242
+    "kinetic energy at the line": 229.86884101625245
   },
-  "flat: optimised profile (N=16)": {
-    "driveline & clutch losses": 46.41301769172947,
-    "aerodynamic drag": 139.6193171844906,
-    "rolling resistance": 219.79618215821603,
+  "flat: optimised profile (N=4)": {
+    "driveline & clutch losses": 47.131041470103376,
+    "aerodynamic drag": 137.58875760351143,
+    "rolling resistance": 219.45527269698331,
     "net climbing": 0.0,
-    "kinetic energy at the line": 48.96165585631144
+    "kinetic energy at the line": 59.33675605267705
   }
 }

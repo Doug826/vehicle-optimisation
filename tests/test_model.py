@@ -225,3 +225,29 @@ def test_rolling_resistance_rises_with_speed():
     assert M.resistance(46.7, c.P, 0.0, 1.0) > M.resistance(13.4, c.P, 0.0, 1.0)
     crr_trip = c.P[M.V_CRR] * (1 + c.P[M.V_CRR_V] * 48)
     assert 0.011 < crr_trip < 0.014   # close to the brief's constant 0.012 at trip speeds
+
+
+# ---------------------------------------------------------------- ratio optimiser
+def test_ratio_method_keeps_throttles_inside_bounds(rolling):
+    opt = CFG["optimiser"]
+    o = optimise_profile(rolling, 2, opt, 40)
+    th = o["result"].throttle
+    assert o["feasible"] and rolling.feasible(o["result"])
+    assert np.all(th > opt["throttle_min"]) and np.all(th < opt["throttle_max"])
+    assert th == pytest.approx(np.array(o["best_ratios"]) / o["best_ratios"][0] * th[0])
+
+
+def test_ratio_start_simplex_is_reproducible_and_clipped(rolling):
+    opt = CFG["optimiser"]
+    a = np.array(optimise_profile(rolling, 4, opt, 6)["outer_start_simplex"])
+    b = np.array(optimise_profile(rolling, 4, opt, 6)["outer_start_simplex"])
+    assert a.shape == (5, 4) and np.array_equal(a, b)
+    assert a.min() >= opt["ratio_clip"][0] and a.max() <= opt["ratio_clip"][1]
+    assert np.array_equal(a[0], np.ones(4))
+
+
+def test_shape_method_still_selectable(rolling):
+    opt = {**CFG["optimiser"], "method": "shape"}
+    b = constant_baseline(rolling, opt)
+    o = optimise_profile(rolling, 1, opt, 6)
+    assert b["feasible"] and o["feasible"] and "outer_legs" in o

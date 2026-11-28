@@ -132,18 +132,30 @@
       "rolling",
       "flat"
     ],
-    "outer_initial_shape": 1.0,
-    "outer_perturbation": 0.25,
-    "inner_start_scales": [
+    "method": "ratio",
+    "throttle_min": 0.1,
+    "throttle_max": 1.0,
+    "inner_start_throttle": 0.5,
+    "inner_xatol": 0.001,
+    "retry_inner_in_search": true,
+    "inner_retry_starts": [
+      0.4,
       0.3,
-      0.4
+      0.6,
+      0.2,
+      0.7,
+      0.8,
+      0.9
     ],
-    "inner_xatol": 1e-05,
-    "inner_fatol_s": 0.01,
-    "inner_maxfev": 40,
-    "outer_xatol": 0.001,
-    "outer_fatol_J": 50.0,
-    "outer_restarts": 6,
+    "outer_perturbation": 1.0,
+    "ratio_clip": [
+      0.0,
+      2.0
+    ],
+    "simplex_seed": 2024,
+    "outer_xatol": 0.01,
+    "outer_fatol_J": 0.01,
+    "outer_maxiter": 500,
     "budgets": {
       "quick": {
         "1": 15,
@@ -158,7 +170,22 @@
         "16": 5000
       }
     },
-    "_source": "brief: nested Nelder-Mead, N+1 outer vertices, two inner start values; numeric settings and restart policy (fresh N+1 simplex at the converged point while energy improves by > outer_fatol_J, within the same evaluation cap) assumed"
+    "_source": "Doug's account of the original optimiser: outer Nelder-Mead over per-section throttle ratios (relative to section 1, start all 1.0); starting simplex of one random perturbation in [-1, 1] per section, clipped to [0, 2]; xatol 1e-2, fatol 1e-2, maxiter 500; inner Nelder-Mead over the first section's throttle, xatol 1e-3, scipy default simplex; throttles strictly inside (0.1, 1) and a missed time window both score a flat 1e10; reported run = converged ratios put back through the time match. Assumed: inner start throttle 0.5, simplex_seed (the original draw was unseeded), evaluation budgets, and inner_retry_starts with retry_inner_in_search (when an inner search stops at a gear-change jump without matching the time it is retried from these starts; set false for a single inner search per shape, which on the flat course finds no run at 1, 2 or 4 sections; the constant baseline always retries).",
+    "shape_method": {
+      "outer_initial_shape": 1.0,
+      "outer_perturbation": 0.25,
+      "inner_start_scales": [
+        0.3,
+        0.4
+      ],
+      "inner_xatol": 1e-05,
+      "inner_fatol_s": 0.01,
+      "inner_maxfev": 40,
+      "outer_xatol": 0.001,
+      "outer_fatol_J": 50.0,
+      "outer_restarts": 6,
+      "_source": "first reconstruction, used when method = 'shape': max-normalised shape, graded penalties, restarts, zero-throttle coasting allowed"
+    }
   },
   "performance_test": {
     "reference": {
