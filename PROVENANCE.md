@@ -5,7 +5,7 @@
 | Source | Status |
 | --- | --- |
 | `original-materials/` (scripts, report, data tables, figures) | **Not supplied.** The folder held only the brief. Nothing original to preserve or copy. |
-| Doug's latest spoken account (in the brief) | Used for the method: nested Nelder–Mead, 1-mile route, 120 s target, 0.1 s step, 1/2/4/8/16 sections, gear forecasting, shaft-energy objective. |
+| Doug's account (the brief, plus a later, more detailed account of the optimiser) | Used for the method: nested Nelder–Mead, 1-mile route, 120 s target, 0.1 s step, 1/2/4/8/16 sections, gear forecasting, shaft-energy objective. |
 | Doug's CV | Corroborates Python, nested optimisation, "up to 34% less simulated energy". The 34% was used only to interpret the finished results. |
 | Ford Fiesta press pack, 28 Nov 2012 (French dossier, English tables) | Downloaded; spec-table pages 10–16 text-extracted: [`docs/sources/ford-fiesta-press-pack-2012-11-spec-tables-p10-16.txt`](docs/sources/ford-fiesta-press-pack-2012-11-spec-tables-p10-16.txt). Source URL: <https://www.fordpers.be/content/old/pdf_2012-11-28_fiesta_dossier_de_presse_fr.pdf> |
 
@@ -40,6 +40,6 @@ Ford's 13.3 s and 168 km/h are **manufacturer claims, not an independent road te
 * **Upshift margin "disabled"** (hunting demo only) means any legal upshift is admissible on energy grounds, with no speed-reserve check.
 * **Performance shift policy:** full throttle, clutch slip at a 3000 rpm launch, upshift at the 6250 rpm limit (the lower gear gives more wheel force up to the limit). The torque interruption per shift is **0.498 s, calibrated** to Ford's 0–100 km/h time of 13.3 s.
 * **Calibration:** `python run.py calibrate` fits frontal area and then shift time, in that order. A test checks that the fit reproduces the stored values. 0–60 mph is reported, not fitted, because Ford publishes no 0–60 time. The brief-literal variant (850 rpm launch, instant shifts, no inertia) is also reported.
-* **Outer Nelder–Mead restarts:** after convergence, the search restarts from the converged point with a fresh N+1 simplex while energy improves by more than 50 J, within the same evaluation cap.
-* **Baseline policy:** the constant throttle is the lowest-energy in-window run found by the same inner Nelder–Mead. No other baseline policy was recovered, so no second one is reproduced.
+* **Optimiser:** follows Doug's account of the original: ratios to the first section in the outer search, the first section's throttle in the inner search, throttles strictly inside (0.1, 1), flat 1e10 penalties, a random starting simplex, and the converged ratios re-run as the reported answer. Assumed within that: the inner start throttle (0.5), the random seed (the original draw was unseeded), the evaluation budgets, and a retry of the inner search from other starting throttles when it stops at a gear-change jump without matching the time (without it the flat course finds no run at 1, 2 or 4 sections). The first reconstruction's optimiser is kept as `method = "shape"`.
+* **Baseline policy:** the constant throttle is the time-matched run from the same inner Nelder–Mead. No other baseline policy was recovered, so no second one is reproduced.
 * **Schedule feedback:** none. No original evidence specifies a link between running behind schedule and downshifting.

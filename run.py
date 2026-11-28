@@ -127,6 +127,8 @@ def row_for(route, n, r, base_E, extra):
 def sweep(cfg: dict, mode: str, out: Path) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     (out / "traces").mkdir(exist_ok=True)
+    for stale in (out / "traces").glob("*.csv"):   # a run that finds nothing must not leave an old trace
+        stale.unlink()
     opt = cfg["optimiser"]
     budgets = opt["budgets"][mode]
     routes = opt["sweep_routes"] if mode == "full" else ["rolling"]
@@ -191,7 +193,7 @@ def sweep(cfg: dict, mode: str, out: Path) -> dict:
         "solver_settings": {k: opt[k] for k in opt if k != "budgets"},
         "maximum_saving": {"route": mx["route"], "n_sections": mx["n_sections"],
                            "saving_percent": mx["saving_percent"],
-                           "comparison": "best feasible N-section profile vs lowest-energy in-window constant throttle, same vehicle/gear policy/accounting/finish"},
+                           "comparison": "N-section profile vs time-matched constant throttle from the same inner search, same vehicle/gear policy/accounting/finish"},
         "hill_behaviour": hills, "runs": runs,
     }
     (out / "runs.json").write_text(json.dumps(meta, indent=2, default=float), encoding="utf-8")

@@ -1,26 +1,26 @@
 {
   "rolling/constant": {
-    "time_s": 119.94706748835826,
-    "energy_J": 664428.978892952,
-    "finish_speed_m_s": 19.847014046222103,
+    "time_s": 119.95140501882692,
+    "energy_J": 665440.6280724393,
+    "finish_speed_m_s": 19.84701876529931,
     "shifts": 8
   },
-  "rolling/best_N8": {
-    "time_s": 120.09928539002591,
-    "energy_J": 474097.07686160435,
-    "finish_speed_m_s": 10.191226206391196,
-    "shifts": 5
+  "rolling/best_N2": {
+    "time_s": 119.97122868507131,
+    "energy_J": 512770.78721133556,
+    "finish_speed_m_s": 12.588354011356525,
+    "shifts": 8
   },
   "flat/constant": {
-    "time_s": 120.04965215682405,
-    "energy_J": 683353.8869109728,
-    "finish_speed_m_s": 20.25960875711488,
+    "time_s": 120.0001331531651,
+    "energy_J": 683874.5372968826,
+    "finish_speed_m_s": 20.2723901348267,
     "shifts": 3
   },
-  "flat/best_N16": {
-    "time_s": 120.09537748583537,
-    "energy_J": 454790.1728907475,
-    "finish_speed_m_s": 9.09022153410958,
-    "shifts": 6
+  "flat/best_N4": {
+    "time_s": 120.0824582934476,
+    "energy_J": 463511.8278232752,
+    "finish_speed_m_s": 10.090273877908231,
+    "shifts": 5
   }
 }
